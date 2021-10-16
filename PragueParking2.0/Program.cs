@@ -7,43 +7,66 @@ namespace PragueParking2._0
 {
     class Program
     {
-        List<string> ParkingList = new List<string>(100);
+        public static List<string> ParkingList = new List<string>(100);
         static void Main(string[] args)
         {
-            StartUpMenu();        
+            foreach (var parkSpot in ParkingList)                     // ????
+            {
+                parkSpot.Insert(0," ");
+            }
+            //StartUpMenu();
             Menu();
-            
+
 
         }
 
         public static void Menu()
         {
-            var menu = "";
+            string menu;
             do
             {
-                menu = AnsiConsole.Prompt(
-                 new SelectionPrompt<string>()
-                 .AddChoices(new[] {"Add vehicle","Move vehicle", "Remove vehicle","Overview","Exit Program"
+                Console.Clear();
+                AnsiConsole.Write(HeadLine("Prague Parking 2.0", Color.Gold3));               
+                menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
+                 .AddChoices(new[] {"[green]Add vehicle[/]","[yellow]Move vehicle[/]", "[orange4_1]Remove vehicle[/]","[magenta]Overview[/]","[Red]Exit Program[/]"
                  }));
 
                 switch (menu)
                 {
-                    case "Add vehicle": { 
+                    case "[green]Add vehicle[/]":
+                        {
+                            AnsiConsole.Write(HeadLine("Add Vehicle", Color.Blue));                           
                             VehicleType input = VehicleTypeChecker();
                             Console.Write("Enter RegNr: ");
                             string regInput = Console.ReadLine();
                             Vehicle Car1 = new Vehicle(regInput, (int)input);
-
-                        } break;
-                    case "Move vehicle": ParkedVehicleBar(); break;
-                    case "Remove vehicle": Console.WriteLine("Remove funkar"); break;
-                    case "Overview": Overview(); break;
-                    case "Exit Program": Console.WriteLine("Exit funkar"); break;
+                        }
+                        break;
+                    case "[yellow]Move vehicle[/]":
+                        {
+                            AnsiConsole.Write(HeadLine("Move Vehicle", Color.Yellow));
+                            Console.ReadKey();
+                        }
+                        break;
+                    case "[orange4_1]Remove vehicle[/]":
+                        {
+                            AnsiConsole.Write(HeadLine("Remove vehicle", Color.Orange4_1));
+                            Console.ReadKey();
+                        }
+                        break;
+                    case "[magenta]Overview[/]":
+                        {
+                            AnsiConsole.Write(HeadLine("Overview", Color.Orange4_1));
+                            Overview();
+                            Console.ReadKey();
+                        }
+                         break;
+                    case "[Red]Exit Program[/]": Console.WriteLine("Exit funkar"); break;
                     default:
                         break;
                 }
             }
-            while (menu != "Exit Program");
+            while (menu != "[Red]Exit Program[/]");
 
         }
         public static void StartUpMenu()
@@ -81,7 +104,7 @@ namespace PragueParking2._0
         {
             var inputChoice = AnsiConsole.Prompt(
                 new SelectionPrompt<VehicleType>()
-                .AddChoices(VehicleType.Car, VehicleType.Mc));           
+                .AddChoices(VehicleType.Car, VehicleType.Mc));
             return inputChoice;
         }
         public static void ParkedVehicleBar()
@@ -93,6 +116,12 @@ namespace PragueParking2._0
             .AddItem("CAR", 52, Color.Yellow)
             .AddItem("MC", 12, Color.Green)
             .AddItem("Bus", 4, Color.Red));
+        }
+        public static Rule HeadLine(string header, Color color)
+        {
+            var rule = new Rule($"[{color}]{header}[/]");
+            return rule;
+
         }
     }
 }

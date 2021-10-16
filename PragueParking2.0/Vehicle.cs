@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PragueParking2._0
 {
-    class Vehicle
+    public class Vehicle
     {      
         public string RegNr { get; set; }
         public VehicleType size;
@@ -38,7 +38,9 @@ namespace PragueParking2._0
     }
    public enum VehicleType
     {
+        //Bike = 1,
         Mc = 2,
-        Car = 4            
+        Car = 4  
+        //Bus = 16    
     }
 }
