@@ -7,40 +7,64 @@ using System.Threading.Tasks;
 namespace PragueParking2._0
 {
     public class Vehicle
-    {      
-        public string RegNr { get; set; }
-        public VehicleType size;
-        public Vehicle()
-        {
+    {
+        private string regNr;
+        private int size;
 
-        }
-        public Vehicle(string regNr, int type)
-        {
-            this.RegNr = regNr;
-            this.size = (VehicleType)type;
-        }
-        public Vehicle(VehicleType type)
-        {
-            this.size = type;
-        }
-        public VehicleType Size
+        public int Size
         {
             get { return size; }
+            set
+            {
+                if (size == 2 || size == 4)
+                {
+                    size = value;
+                }
+                else
+                {
+                    Console.WriteLine("Wrong size!");
+                }
+            }
         }
+        public string RegNr
+        {
+            get { return regNr; }
+            set
+            {       //Använd regEx här??
+                    //if (regNr.Contains(null))
+                    //{
+                    //    Console.WriteLine("Mellanslag och dyl är inte tillåtet...");
+                    //}
+                    //else
+                    //{
+                regNr = value;
+            }
+        }
+
+
     }
     class Car : Vehicle
     {
-        
+        public Car(string regNr)
+        {
+            this.RegNr = regNr;
+            this.Size = 4;
+        }
     }
     class Mc : Vehicle
     {
+        public Mc(string aRegNr)
+        {
+            this.RegNr = aRegNr;
+            this.Size = 2;
+        }
+    }
 
-    }
-   public enum VehicleType
-    {
-        //Bike = 1,
-        Mc = 2,
-        Car = 4  
-        //Bus = 16    
-    }
+    //public enum VehicleType
+    //{
+    //    //bike = 1,
+    //    mc = 2,
+    //    car = 4
+    //    //bus = 16    
+    //}
 }
