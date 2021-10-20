@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Spectre.Console;
 
@@ -7,7 +8,7 @@ namespace PragueParking2._0
 {
     class Program
     {
-        public static List<string> parkingList = new List<string>(100);
+        public static List<string> parkingList = new List<string>(101);
         static void Main(string[] args)
         {
             RunThroughParkingList();  //Lägg till så att den först kollar igenom sparade fordon.         
@@ -24,7 +25,7 @@ namespace PragueParking2._0
                 AnsiConsole.Write(HeadLine("Prague Parking 2.0", Color.Gold3));
                 menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
                  
-                 .AddChoices(new[] {"[green]Add vehicle[/]","[yellow]Move vehicle[/]", "[orange4_1]Remove vehicle[/]","[magenta]Overview[/]","[Red]Exit Program[/]"
+                 .AddChoices(new[] {"[green]Add vehicle[/]","[yellow]Move vehicle[/]", "[orange4_1]Remove vehicle[/]","[magenta]Overview[/]","[Red]Exit Program[/]", "Search"
 
                  }
                 
@@ -58,6 +59,13 @@ namespace PragueParking2._0
                             Console.ReadKey();
                         }
                         break;
+                    case "Search":
+                        {
+                            string regNr = AskForRegNr();
+                            Console.WriteLine(SearchSpot(regNr));
+                            Console.ReadKey();
+                        }   
+                        break;
                     case "[Red]Exit Program[/]": Console.WriteLine("Exit funkar"); break;
                     default:
                         break;
@@ -68,9 +76,13 @@ namespace PragueParking2._0
         }
         public static void RunThroughParkingList()
         {
-            for (int i = 0; i < 101; i++)
+            //for (int i = 1; i < parkingList.Count; i++)
+            //{
+            //    parkingList.Add("Empty");
+            //}
+            foreach (var item in parkingList)
             {
-                parkingList.Add("Empty");
+                item = "Empty";
             }
         }
         public static void StartUpMenu()
@@ -95,7 +107,7 @@ namespace PragueParking2._0
             int x = 1;
 
             
-            for (int i = 1; i < 101; i++)
+            for (int i = 1; i < parkingList.Count; i++)
             {
 
 
@@ -174,7 +186,7 @@ namespace PragueParking2._0
             if (vehicleType == "Car")
             {
                 new Car(regNr);
-                for (int i = 1; i < 101; i++)
+                for (int i = 1; i < parkingList.Count; i++)
                 {
                     if (parkingList[i] == "Empty")
                     {
@@ -186,7 +198,7 @@ namespace PragueParking2._0
             else if (vehicleType == "Mc")
             {
                 new Mc(regNr);
-                for (int i = 1; i < 101; i++)
+                for (int i = 1; i < parkingList.Count; i++)
                 {
                     if (parkingList[i] == "Empty")
                     {
@@ -195,6 +207,18 @@ namespace PragueParking2._0
                     }
                 }
             }
+        }
+        public static int SearchSpot(string regnr)
+        {
+
+            var findspot =
+                (from spot in parkingList
+                 where spot == regnr
+                 select spot);
+
+            int regspot = spot;
+            
+            return regspot;
         }
     }
 }
