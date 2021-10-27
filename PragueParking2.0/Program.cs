@@ -8,10 +8,11 @@ namespace PragueParking2._0
 {
     class Program
     {
-        public static List<string> parkingList = new List<string>(101);
+
+        public static ParkingHouse parkingList = new();
         static void Main(string[] args)
         {
-            RunThroughParkingList();  //Lägg till så att den först kollar igenom sparade fordon.         
+            
             //StartUpMenu();
             Menu();
         }
@@ -74,17 +75,7 @@ namespace PragueParking2._0
             while (menu != "[Red]Exit Program[/]");
 
         }
-        public static void RunThroughParkingList()
-        {
-            //for (int i = 1; i < parkingList.Count; i++)
-            //{
-            //    parkingList.Add("Empty");
-            //}
-            foreach (var item in parkingList)
-            {
-                item = "Empty";
-            }
-        }
+        
         public static void StartUpMenu()
         {
             AnsiConsole.Status()
@@ -185,7 +176,9 @@ namespace PragueParking2._0
             string regNr = AskForRegNr();
             if (vehicleType == "Car")
             {
+                parkingList.RegNr = new Car(regNr);
                 new Car(regNr);
+                
                 for (int i = 1; i < parkingList.Count; i++)
                 {
                     if (parkingList[i] == "Empty")
@@ -211,14 +204,14 @@ namespace PragueParking2._0
         public static int SearchSpot(string regnr)
         {
 
-            var findspot =
-                (from spot in parkingList
-                 where spot == regnr
-                 select spot);
+            //var findspot =
+            //    (from spot in parkingList
+            //     where spot == regnr
+            //     select spot);
 
-            int regspot = spot;
-            
-            return regspot;
+            //int regspot = spot;
+
+            return 0;//regspot;
         }
     }
 }
