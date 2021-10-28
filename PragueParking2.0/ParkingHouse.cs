@@ -11,14 +11,14 @@ namespace PragueParking2._0
         const int ParkingSpotSize = 4;
         private int Size { get; } = 100;
        
-        private List<ParkingSpot> Phouse = new();
+        public static List<ParkingSpot> Phouse = new();
         public ParkingHouse()
         {
-            Phouse.Add(new ParkingSpot(ParkingSpotSize, 1));
-            //for (int i = 1; i <= Size; i++)
-            //{
-            //    Phouse.Add(new ParkingSpot(ParkingSpotSize, i -1));
-            //}
+
+            for (int i = 1; i <= Size; i++)
+            {
+                Phouse.Add(new ParkingSpot(ParkingSpotSize, i - 1));
+            }
             //läs in data här
         }
         public bool ParkVehicle(Vehicle vehicle)
@@ -36,6 +36,22 @@ namespace PragueParking2._0
             }
 
             return true;
+        }
+        public bool Search(string regNr, out int spot)
+        {
+            for (int i = 0; i <= Phouse.Count; i++)
+            {
+                if (Phouse[i]) 
+                {
+                    spot = i;
+                    return true;
+                }
+                
+                
+
+            }
+            spot = -1;
+            return false;
         }
         
     }

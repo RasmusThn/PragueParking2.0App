@@ -17,9 +17,12 @@ namespace PragueParking2._0
             RegNr = regnr;
             Arrival = DateTime.Now;
         }
-        
-        
-        
+
+
+        public override string ToString()
+        {
+            return RegNr;
+        }
 
 
     }

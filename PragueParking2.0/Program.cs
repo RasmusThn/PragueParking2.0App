@@ -74,7 +74,11 @@ namespace PragueParking2._0
                     case "Search":
                         {
                             string regNr = AskForRegNr();
-                            Console.WriteLine(SearchSpot(regNr));
+                            bool isContaining = parkingList.Search(regNr, out int spotNr);
+                            if (isContaining)
+                            {
+                                Console.WriteLine("Your vehicle with reg nr: {0} were found at spot nr:{1}",regNr,spotNr);
+                            }
                             Console.ReadKey();
                         }   
                         break;
@@ -141,18 +145,7 @@ namespace PragueParking2._0
                 
             
         }
-        public static int SearchSpot(string regnr)
-        {
-
-            //var findspot =
-            //    (from spot in parkingList
-            //     where spot == regnr
-            //     select spot);
-
-            //int regspot = spot;
-
-            return 0;//regspot;
-        }
+       
     }
 }
 

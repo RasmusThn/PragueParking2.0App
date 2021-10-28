@@ -8,9 +8,9 @@ namespace PragueParking2._0
 {
     public class ParkingSpot
     {
-        public int Nummer { get; set; }
-        public int Size { get; set; }
-        public static int AvailableSize { get; set; }
+        private int Nummer { get; set; }
+        private int Size { get; set; }
+        private int AvailableSize { get; set; }
         public string RegNr { get; set; }
         public static List<Vehicle> ParkedVehicles = new();
 
@@ -24,22 +24,30 @@ namespace PragueParking2._0
 
         }
         public bool Park(Vehicle vehicle,int spotNr)
-        {        
-            // TODO: fixa så att det läggs in rätt borde gå med ADD
+        {
+            // TODO: Lägger inte till för att det redan finns på den platsen?
             
-            ParkedVehicles.Insert(spotNr, vehicle);
+            ParkedVehicles.Add(vehicle);
             AvailableSize -= vehicle.Size;
             return true;
         }
-       public bool Search(Vehicle vehicle)
+       public static bool Search(Vehicle vehicle, out int spot)
         {
-            var find = ParkedVehicles.Contains(vehicle);
+            for (int i = 0; i < ParkedVehicles.Count; i++)
+            {
+                if (ParkedVehicles.Contains(vehicle))
+                {
+                    spot = i;
+                    return true;
+                }
+            }
 
-            return find;
+            spot = -1;
+            return false;
         }
         public void Remove(string regNr)
         {
-
+            ParkedVehicles.Remove(regNr);  //TODO: Hur tar man bort ett object med bara regNr???
         }
         public bool CheckSpace(Vehicle vehicle, out int nr)
         {
