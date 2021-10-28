@@ -8,10 +8,10 @@ namespace PragueParking2._0
 {
     class Program
     {
-         
+       public static ParkingHouse parkingList = new();
         static void Main(string[] args)
         {
-            ParkingHouse parkingList = new();
+            
             //StartUpMenu();
             Menu();
         }
@@ -40,11 +40,13 @@ namespace PragueParking2._0
                             string regNr = AskForRegNr();
                             if (vehicleType == "Car")
                             {
-                                ParkingSpot.ParkVehicle(new Car(regNr));
-                                //Car.AddCar(regNr);
+                                parkingList.ParkVehicle(new Car(regNr));                               
 
                             }
-                            else { Mc.AddMc(regNr); }
+                            else 
+                            {
+                                parkingList.ParkVehicle(new Mc(regNr));
+                            }
 
 
                             

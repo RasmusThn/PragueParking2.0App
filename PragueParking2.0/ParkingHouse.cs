@@ -8,27 +8,30 @@ namespace PragueParking2._0
 {
     public class ParkingHouse
     {
-        private const int ParkingSpotSize = 4;
+        const int ParkingSpotSize = 4;
         private int Size { get; } = 100;
-        //public string RegNr { get; set; }
+       
         private List<ParkingSpot> Phouse = new();
         public ParkingHouse()
         {
-            for (int i = 1; i <= Size; i++)
-            {
-                Phouse.Add(new ParkingSpot(ParkingSpotSize, i -1));
-            }
+            Phouse.Add(new ParkingSpot(ParkingSpotSize, 1));
+            //for (int i = 1; i <= Size; i++)
+            //{
+            //    Phouse.Add(new ParkingSpot(ParkingSpotSize, i -1));
+            //}
             //läs in data här
         }
         public bool ParkVehicle(Vehicle vehicle)
         {
+            
             for (int i = 0; i < Phouse.Count; i++)
             {
-                Phouse[i].CheckSPace(vehicle);
-                bool ok = true;
-                if (true)
+               bool isSpotEmpty = Phouse[i].CheckSpace(vehicle,out int spotNr);
+                
+                if (isSpotEmpty)
                 {
-                    Phouse[i].ParkVehicle(vehicle);
+                    Phouse[i].Park(vehicle, spotNr);
+                    break;
                 }
             }
 

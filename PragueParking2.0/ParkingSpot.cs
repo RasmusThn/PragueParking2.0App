@@ -19,33 +19,40 @@ namespace PragueParking2._0
             // this.RegNr = "Empty";
             this.Nummer = nummer;
             Size = size;
+            AvailableSize = size;
+
 
         }
-        public static bool ParkVehicle(Vehicle vehicle)
-        {
+        public bool Park(Vehicle vehicle,int spotNr)
+        {        
+            // TODO: fixa så att det läggs in rätt borde gå med ADD
             
-            ParkedVehicles.Add(vehicle);
+            ParkedVehicles.Insert(spotNr, vehicle);
             AvailableSize -= vehicle.Size;
             return true;
         }
-       public static bool Search(Vehicle vehicle)
+       public bool Search(Vehicle vehicle)
         {
             var find = ParkedVehicles.Contains(vehicle);
 
             return find;
         }
-        public static void Remove(string regNr)
+        public void Remove(string regNr)
         {
 
         }
-        public bool CheckSpace()
+        public bool CheckSpace(Vehicle vehicle, out int nr)
         {
-            for (int i = 0; i < ParkedVehicles.Count; i++)
+            for (int i = 0; i <= ParkedVehicles.Count; i++)
             {
-
+                if (AvailableSize == 4)
+                {
+                    nr = i;
+                    return true;
+                }
             }
-
-            return true;
+            nr = -1;
+            return false;
         }
     }
 }
