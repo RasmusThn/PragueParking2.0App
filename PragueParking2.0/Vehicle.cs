@@ -10,11 +10,15 @@ namespace PragueParking2._0
     {
         public string RegNr { get; set; }
         public int Size { get; set; }
+        private DateTime Arrival { get; set; }
 
         public Vehicle(string regnr)
         {
             RegNr = regnr;
+            Arrival = DateTime.Now;
         }
+        
+        
         
 
 

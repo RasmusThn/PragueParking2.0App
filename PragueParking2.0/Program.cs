@@ -8,11 +8,10 @@ namespace PragueParking2._0
 {
     class Program
     {
-
-        public static ParkingHouse parkingList = new();
+         
         static void Main(string[] args)
         {
-            
+            ParkingHouse parkingList = new();
             //StartUpMenu();
             Menu();
         }
@@ -38,7 +37,17 @@ namespace PragueParking2._0
                         {
                             AnsiConsole.Write(HeadLine("Add Vehicle", Color.Blue));
                             string vehicleType = VehicleTypeChecker();
-                            AddVehicle(vehicleType);
+                            string regNr = AskForRegNr();
+                            if (vehicleType == "Car")
+                            {
+                                ParkingSpot.ParkVehicle(new Car(regNr));
+                                //Car.AddCar(regNr);
+
+                            }
+                            else { Mc.AddMc(regNr); }
+
+
+                            
                         }
                         break;
                     case "[yellow]Move vehicle[/]":
@@ -93,54 +102,6 @@ namespace PragueParking2._0
         public static void Overview()
         {
 
-            #region old overview
-            const int column = 6;
-            int x = 1;
-
-            
-            for (int i = 1; i < parkingList.Count; i++)
-            {
-
-
-                if (x >= column && x % column == 0)
-                {
-                    Console.WriteLine();
-                    x = 1;
-                }
-                if (parkingList[i] == "Empty")//If spot is Empty
-                {
-                    Console.ForegroundColor = ConsoleColor.Blue;
-                    Console.Write(i + ": ");
-                    Console.ResetColor();
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write("Empty \t");
-                    Console.ResetColor();
-                    x++;
-                }
-                else if (parkingList[i].Contains("MC") && parkingList[i].Length < 14 && !parkingList[i].Contains('|'))//Adds Yellow color if half full with mc
-                {
-                    Console.ForegroundColor = ConsoleColor.Blue;
-                    Console.Write(i + ": ");
-                    Console.ResetColor();
-                    Console.ForegroundColor = ConsoleColor.DarkYellow;
-                    Console.Write(parkingList[i] + "  Empty ");
-                    Console.ResetColor();
-                    x++;
-                }
-                else
-                {
-                    Console.ForegroundColor = ConsoleColor.Blue;
-                    Console.Write(i + ": ");
-                    Console.ResetColor();
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write(parkingList[i] + "\t");
-                    Console.ResetColor();
-                    x++;
-                }
-
-                // Console.WriteLine(i + ": " + parkingList[i]);
-            }
-            #endregion
         }
         public static string VehicleTypeChecker()
         {
@@ -174,32 +135,9 @@ namespace PragueParking2._0
         public static void AddVehicle(string vehicleType)
         {
             string regNr = AskForRegNr();
-            if (vehicleType == "Car")
-            {
-                parkingList.RegNr = new Car(regNr);
-                new Car(regNr);
+            
                 
-                for (int i = 1; i < parkingList.Count; i++)
-                {
-                    if (parkingList[i] == "Empty")
-                    {
-                        parkingList[i] = regNr;
-                        break;
-                    }
-                }
-            }
-            else if (vehicleType == "Mc")
-            {
-                new Mc(regNr);
-                for (int i = 1; i < parkingList.Count; i++)
-                {
-                    if (parkingList[i] == "Empty")
-                    {
-                        parkingList[i] = regNr;
-                        break;
-                    }
-                }
-            }
+            
         }
         public static int SearchSpot(string regnr)
         {
