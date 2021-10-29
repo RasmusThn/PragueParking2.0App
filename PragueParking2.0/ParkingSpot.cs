@@ -23,11 +23,11 @@ namespace PragueParking2._0
 
 
         }
-        public bool Park(Vehicle vehicle,int spotNr)
+        public bool Park(Vehicle vehicle, int spot)
         {
             // TODO: Lägger inte till för att det redan finns på den platsen?
             
-            ParkedVehicles.Add(vehicle);
+            ParkedVehicles.Insert(spot, vehicle);//add kanske?
             AvailableSize -= vehicle.Size;
             return true;
         }
@@ -47,20 +47,31 @@ namespace PragueParking2._0
         }
         public void Remove(string regNr)
         {
-            ParkedVehicles.Remove(regNr);  //TODO: Hur tar man bort ett object med bara regNr???
+            
+            //ParkedVehicles.Remove(regNr);  //TODO: Hur tar man bort ett object med bara regNr???
         }
-        public bool CheckSpace(Vehicle vehicle, out int nr)
+        public bool CheckSpace(Vehicle vehicle)
         {
-            for (int i = 0; i <= ParkedVehicles.Count; i++)
-            {
-                if (AvailableSize == 4)
+            //kolla med int om det får plats.
+            
+                if (AvailableSize == 4 && vehicle.Size == 4)
                 {
-                    nr = i;
+                    
                     return true;
                 }
-            }
-            nr = -1;
+                else if (AvailableSize == 2 || AvailableSize == 4 && vehicle.Size == 2)
+                {
+                    return true;
+                }
+           
+            
             return false;
         }
+        public static void OverviewParkingSpot()
+        {
+            Console.WriteLine(ParkedVehicles.ToString());
+        }
+        
+
     }
 }

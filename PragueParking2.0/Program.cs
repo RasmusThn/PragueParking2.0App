@@ -41,15 +41,11 @@ namespace PragueParking2._0
                             if (vehicleType == "Car")
                             {
                                 parkingList.ParkVehicle(new Car(regNr));                               
-
                             }
                             else 
                             {
                                 parkingList.ParkVehicle(new Mc(regNr));
-                            }
-
-
-                            
+                            }                       
                         }
                         break;
                     case "[yellow]Move vehicle[/]":
@@ -67,7 +63,7 @@ namespace PragueParking2._0
                     case "[magenta]Overview[/]":
                         {
                             AnsiConsole.Write(HeadLine("Overview", Color.Orange4_1));
-                            Overview();
+                            parkingList.Overview();
                             Console.ReadKey();
                         }
                         break;
@@ -79,6 +75,8 @@ namespace PragueParking2._0
                             {
                                 Console.WriteLine("Your vehicle with reg nr: {0} were found at spot nr:{1}",regNr,spotNr);
                             }
+                             int spot = parkingList.FindVehicle(regNr);
+                            Console.WriteLine(spot);
                             Console.ReadKey();
                         }   
                         break;

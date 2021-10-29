@@ -14,23 +14,22 @@ namespace PragueParking2._0
         public static List<ParkingSpot> Phouse = new();
         public ParkingHouse()
         {
-
             for (int i = 1; i <= Size; i++)
             {
-                Phouse.Add(new ParkingSpot(ParkingSpotSize, i - 1));
+                Phouse.Add(new ParkingSpot(ParkingSpotSize, i));
             }
-            //läs in data här
+            //läs in sparad data här
         }
         public bool ParkVehicle(Vehicle vehicle)
         {
             
             for (int i = 0; i < Phouse.Count; i++)
             {
-               bool isSpotEmpty = Phouse[i].CheckSpace(vehicle,out int spotNr);
+               bool isSpotEmpty = Phouse[i].CheckSpace(vehicle);
                 
                 if (isSpotEmpty)
                 {
-                    Phouse[i].Park(vehicle, spotNr);
+                    Phouse[i].Park(vehicle, i);
                     break;
                 }
             }
@@ -41,18 +40,29 @@ namespace PragueParking2._0
         {
             for (int i = 0; i <= Phouse.Count; i++)
             {
-                if (Phouse[i]) 
-                {
-                    spot = i;
-                    return true;
-                }
                 
-                
-
+                //if (Phouse[i]) 
+                //{
+                //    spot = i;
+                //    return true;
+                //}
             }
             spot = -1;
             return false;
         }
-        
+        public int FindVehicle(string regnr)
+        {
+            int index = -1;
+            return index = ParkingSpot.ParkedVehicles.FindIndex(x => x.RegNr == regnr);
+        }
+        public void Overview()
+        {
+            for (int i = 0; i < Phouse.Count; i++)
+            {
+            
+                ParkingSpot.OverviewParkingSpot(); // Knas!!
+            }
+           
+        }
     }
 }

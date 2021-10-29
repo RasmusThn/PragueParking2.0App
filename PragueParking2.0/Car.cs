@@ -13,9 +13,6 @@ namespace PragueParking2._0
             this.Size = 4;
             
         }
-        public static void AddCar(string regNr)
-        {
-            new Car(regNr);
-        }
+        
     }
 }

@@ -12,11 +12,7 @@ namespace PragueParking2._0
         {           
             this.Size = 2;
         }
-        public static void AddMc(string regNr)
-        {
-            new Mc(regNr);
-
-        }
+       
 
     }
 }
