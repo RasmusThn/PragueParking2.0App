@@ -60,6 +60,8 @@ namespace PragueParking2._0
                     case "[orange4_1]Remove vehicle[/]":
                         {
                             AnsiConsole.Write(HeadLine("Remove vehicle", Color.Orange4_1));
+                            string regNr = AskForRegNr();
+                            parkingList.RemoveVehicle(regNr);
                             Console.ReadKey();
                         }
                         break;

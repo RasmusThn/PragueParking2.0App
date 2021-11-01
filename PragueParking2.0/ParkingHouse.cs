@@ -14,7 +14,7 @@ namespace PragueParking2._0
         public static List<ParkingSpot> Phouse = new();
         public ParkingHouse()
         {
-            for (int i = 1; i <= Size; i++)
+            for (int i = 0; i < Size; i++)
             {
                 Phouse.Add(new ParkingSpot(ParkingSpotSize, i));
             }
@@ -23,7 +23,7 @@ namespace PragueParking2._0
         public bool ParkVehicle(Vehicle vehicle)
         {
             
-            for (int i = 0; i < Phouse.Count; i++)
+            for (int i = 1; i <= Phouse.Count; i++)
             {
                bool isSpotEmpty = Phouse[i].CheckSpace(vehicle);
                 
@@ -56,7 +56,7 @@ namespace PragueParking2._0
             Vehicle vehicle = RegNrToObject(regnr);
             
             //int index = -1;
-            for (int i = 0; i < Phouse.Count; i++)
+            for (int i = 1; i <= Phouse.Count; i++)
             {
                 if (Phouse[i].Equals(vehicle))
                 {
@@ -81,8 +81,10 @@ namespace PragueParking2._0
             bool isSpotEmpty = Phouse[newSpot].CheckSpace(vehicle);
             if (isSpotEmpty)
             {
+                RemoveVehicle(regnr);
                 Phouse[newSpot].Park(vehicle);
-                Phouse[oldSpot].Remove(vehicle);
+               // Phouse[oldSpot].Remove(vehicle);
+
                 Phouse[oldSpot].AvailableSize += vehicle.Size;
                 
                 //ParkingSpot.Move(findReg[0], newSpot);
@@ -97,12 +99,38 @@ namespace PragueParking2._0
         }
         public void Overview()
         {
-            for (int i = 0; i < Phouse.Count; i++)
+            //for (int i = 0; i < Phouse.Count; i++)
+            //{
+
+            //        ParkingSpot.OverviewParkingSpot(); // Knas!!
+
+            //}
+            int x = 0;
+            for (int i = 0; i < Phouse.Count(); i++)
             {
-            
-                ParkingSpot.OverviewParkingSpot(); // Knas!!
+                if (Phouse[i].RegNr != null)
+                {
+                    Console.Write("Nr{0}: ", i + 1);
+                    Console.Write(ParkingSpot.ParkedVehicles[i] + " ");
+                    x++;
+                }
+                else if (Phouse[i].RegNr == null)
+                {
+                    Console.Write("Nr{0}: ", i + 1);
+                    x++;
+                }
+                if (x == 5)
+                {
+                    Console.WriteLine();
+                    x = 0;
+                }
             }
-           
+        }
+        public bool RemoveVehicle(string regNr)
+        {
+            Vehicle vehicle = RegNrToObject(regNr);
+            ParkingSpot.ParkedVehicles.Remove(vehicle);
+            return true;
         }
         public static Vehicle RegNrToObject(string regNr)
         {

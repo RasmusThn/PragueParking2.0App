@@ -16,7 +16,7 @@ namespace PragueParking2._0
 
         public ParkingSpot(int size,int nummer)
         {
-            // this.RegNr = "Empty";
+             //this.RegNr = "Empty";
             this.Nummer = nummer;
             Size = size;
             AvailableSize = size;
@@ -27,7 +27,7 @@ namespace PragueParking2._0
         {
             // TODO: Lägger inte till för att det redan finns på den platsen?
             
-            ParkedVehicles.Add(vehicle);//add kanske?
+            ParkedVehicles.Add(vehicle);
             AvailableSize -= vehicle.Size;
             RegNr = vehicle.RegNr;
             return true;
@@ -46,7 +46,7 @@ namespace PragueParking2._0
             spot = -1;
             return false;
         }
-        public void Remove(Vehicle vehicle)
+        public static void Remove(Vehicle vehicle)
         {
             
             ParkedVehicles.Remove(vehicle);
@@ -79,7 +79,16 @@ namespace PragueParking2._0
         }
         public static void OverviewParkingSpot()
         {
-            Console.WriteLine(ParkedVehicles.ToString());
+            
+            for (int i = 0; i < ParkedVehicles.Count; i++)
+            {
+
+                Console.Write("Nr{0}:", i + 1);
+                Console.WriteLine(ParkedVehicles[i]);
+            }
+            
+            
+            
         }
         
 
