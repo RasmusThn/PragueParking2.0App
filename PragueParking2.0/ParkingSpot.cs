@@ -10,9 +10,9 @@ namespace PragueParking2._0
     {
         private int Nummer { get; set; }
         private int Size { get; set; }
-        private int AvailableSize { get; set; }
+        public int AvailableSize { get; set; }
         public string RegNr { get; set; }
-        public static List<Vehicle> ParkedVehicles = new();
+        public static List<Vehicle> ParkedVehicles = new List<Vehicle>(2);
 
         public ParkingSpot(int size,int nummer)
         {
@@ -23,12 +23,13 @@ namespace PragueParking2._0
 
 
         }
-        public bool Park(Vehicle vehicle, int spot)
+        public bool Park(Vehicle vehicle)
         {
             // TODO: Lägger inte till för att det redan finns på den platsen?
             
-            ParkedVehicles.Insert(spot, vehicle);//add kanske?
+            ParkedVehicles.Add(vehicle);//add kanske?
             AvailableSize -= vehicle.Size;
+            RegNr = vehicle.RegNr;
             return true;
         }
        public static bool Search(Vehicle vehicle, out int spot)
@@ -45,10 +46,11 @@ namespace PragueParking2._0
             spot = -1;
             return false;
         }
-        public void Remove(string regNr)
+        public void Remove(Vehicle vehicle)
         {
             
-            //ParkedVehicles.Remove(regNr);  //TODO: Hur tar man bort ett object med bara regNr???
+            ParkedVehicles.Remove(vehicle);
+            
         }
         public bool CheckSpace(Vehicle vehicle)
         {
@@ -66,6 +68,14 @@ namespace PragueParking2._0
            
             
             return false;
+        }
+        public static bool Move(Vehicle vehicle, int newSpot)
+        {
+            
+            ParkedVehicles.Remove(vehicle);
+            ParkedVehicles.Insert(newSpot, vehicle);
+            return true;
+
         }
         public static void OverviewParkingSpot()
         {

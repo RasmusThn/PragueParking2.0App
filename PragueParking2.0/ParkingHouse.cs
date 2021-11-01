@@ -29,7 +29,8 @@ namespace PragueParking2._0
                 
                 if (isSpotEmpty)
                 {
-                    Phouse[i].Park(vehicle, i);
+                     Phouse[i].Park(vehicle);
+                     vehicle.Nummer = i;
                     break;
                 }
             }
@@ -52,8 +53,47 @@ namespace PragueParking2._0
         }
         public int FindVehicle(string regnr)
         {
-            int index = -1;
-            return index = ParkingSpot.ParkedVehicles.FindIndex(x => x.RegNr == regnr);
+            Vehicle vehicle = RegNrToObject(regnr);
+            
+            //int index = -1;
+            for (int i = 0; i < Phouse.Count; i++)
+            {
+                if (Phouse[i].Equals(vehicle))
+                {
+                    return i;
+                }
+            }
+            return -1;
+           // return index = ParkingSpot.ParkedVehicles.FindIndex(x => x.RegNr == regnr);
+        }
+        public int MoveVehicle(string regnr, int newSpot)
+        {
+            int oldSpot = FindVehicle(regnr);
+            if (oldSpot == -1)
+            {
+                return -1;
+            }
+            Vehicle vehicle = RegNrToObject(regnr);
+            //List<Vehicle> findReg = ParkingSpot.ParkedVehicles.Where(x => x.RegNr == regnr).ToList();
+           
+            //int oldSpot = FindVehicle(findReg[0]);
+
+            bool isSpotEmpty = Phouse[newSpot].CheckSpace(vehicle);
+            if (isSpotEmpty)
+            {
+                Phouse[newSpot].Park(vehicle);
+                Phouse[oldSpot].Remove(vehicle);
+                Phouse[oldSpot].AvailableSize += vehicle.Size;
+                
+                //ParkingSpot.Move(findReg[0], newSpot);
+                return 1;
+            }
+            else
+            {
+                return 2;
+            }
+
+           
         }
         public void Overview()
         {
@@ -63,6 +103,12 @@ namespace PragueParking2._0
                 ParkingSpot.OverviewParkingSpot(); // Knas!!
             }
            
+        }
+        public static Vehicle RegNrToObject(string regNr)
+        {
+            List<Vehicle> findReg = ParkingSpot.ParkedVehicles.Where(x => x.RegNr == regNr).ToList();
+
+            return findReg[0];
         }
     }
 }
