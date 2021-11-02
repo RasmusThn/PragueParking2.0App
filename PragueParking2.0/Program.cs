@@ -8,11 +8,17 @@ namespace PragueParking2._0
 {
     class Program
     {
-       public static ParkingHouse parkingList = new();
+        public static ParkingHouse parkingList = new();
+        //public static Config config = new Config();
+        
+
         static void Main(string[] args)
         {
-            
             //StartUpMenu();
+            Config config = new Config();
+           config = Config.ReadFromFile();
+            
+
             Menu();
         }
 
@@ -93,14 +99,12 @@ namespace PragueParking2._0
             while (menu != "[Red]Exit Program[/]");
 
         }
-
         private static int AskForNewSpotNr()
         {
             Console.Write("Enter New Spot Number: ");
             int spotNr = int.Parse(Console.ReadLine());
             return spotNr;
         }
-
         public static void StartUpMenu()
         {
             AnsiConsole.Status()
@@ -117,7 +121,7 @@ namespace PragueParking2._0
         }
         public static void Overview()
         {
-
+            
         }
         public static string VehicleTypeChecker()
         {
@@ -125,17 +129,7 @@ namespace PragueParking2._0
                 new SelectionPrompt<string>()
                 .AddChoices("Car", "Mc"));
             return inputChoice;
-        }
-        public static void ParkedVehicleBar()
-        {
-            AnsiConsole.Write(new BarChart()
-            .Width(60)
-            .Label("[green bold underline]Number of Vehicles[/]")
-            .CenterLabel()
-            .AddItem("CAR", 52, Color.Yellow)
-            .AddItem("MC", 12, Color.Green)
-            .AddItem("Bus", 4, Color.Red));
-        }
+        }    
         public static Rule HeadLine(string header, Color color)
         {
             var rule = new Rule($"[{color}]{header}[/]");

@@ -1,26 +1,28 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace PragueParking2._0
 {
-    public class ParkingSpot
+     class ParkingSpot
     {
-        private int Nummer { get; set; }
-        private int Size { get; set; }
+        private int Number { get; set; }
+        //private int Size { get; set; }
         public int AvailableSize { get; set; }
         public string RegNr { get; set; }
-        public static List<Vehicle> ParkedVehicles = new List<Vehicle>(2);
+        public static List<Vehicle> ParkedVehicles = new();
 
         public ParkingSpot(int size,int nummer)
         {
              //this.RegNr = "Empty";
-            this.Nummer = nummer;
-            Size = size;
+            this.Number = nummer;
+            //Size = size;
             AvailableSize = size;
-
+            
 
         }
         public bool Park(Vehicle vehicle)
@@ -29,10 +31,10 @@ namespace PragueParking2._0
             
             ParkedVehicles.Add(vehicle);
             AvailableSize -= vehicle.Size;
-            RegNr = vehicle.RegNr;
+            //RegNr = vehicle.RegNr;
             return true;
         }
-       public static bool Search(Vehicle vehicle, out int spot)
+        public static bool Search(Vehicle vehicle, out int spot)
         {
             for (int i = 0; i < ParkedVehicles.Count; i++)
             {
@@ -91,6 +93,11 @@ namespace PragueParking2._0
             
         }
         
+        public void SaveToFile()
+        {
+            
 
+        }
+        
     }
 }

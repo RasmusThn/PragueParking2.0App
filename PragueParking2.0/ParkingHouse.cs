@@ -6,31 +6,31 @@ using System.Threading.Tasks;
 
 namespace PragueParking2._0
 {
-    public class ParkingHouse
+    class ParkingHouse
     {
         const int ParkingSpotSize = 4;
-        private int Size { get; } = 100;
+        public static int Size { get; } = 100;
        
         public static List<ParkingSpot> Phouse = new();
         public ParkingHouse()
         {
             for (int i = 0; i < Size; i++)
             {
-                Phouse.Add(new ParkingSpot(ParkingSpotSize, i));
+                Phouse.Add(new ParkingSpot(ParkingSpotSize, i + 1));
             }
             //läs in sparad data här
         }
         public bool ParkVehicle(Vehicle vehicle)
         {
             
-            for (int i = 1; i <= Phouse.Count; i++)
+            for (int i = 0; i <= Phouse.Count; i++)
             {
                bool isSpotEmpty = Phouse[i].CheckSpace(vehicle);
                 
                 if (isSpotEmpty)
                 {
                      Phouse[i].Park(vehicle);
-                     vehicle.Nummer = i;
+                     vehicle.SpotNumber = i + 1;
                     break;
                 }
             }
@@ -106,12 +106,20 @@ namespace PragueParking2._0
 
             //}
             int x = 0;
-            for (int i = 0; i < Phouse.Count(); i++)
+            for (int i = 0; i < Phouse.Count; i++)
             {
-                if (Phouse[i].RegNr != null)
+                if (ParkingSpot.ParkedVehicles != null)
                 {
                     Console.Write("Nr{0}: ", i + 1);
-                    Console.Write(ParkingSpot.ParkedVehicles[i] + " ");
+                    foreach (Vehicle vehicle in ParkingSpot.ParkedVehicles)
+                    {
+                        if (vehicle.SpotNumber == i)
+                        {
+                            Console.Write(vehicle.RegNr + " ");
+                        }
+                        else break;
+                    }
+                    //Console.Write(ParkingSpot.ParkedVehicles[i] + " ");
                     x++;
                 }
                 else if (Phouse[i].RegNr == null)

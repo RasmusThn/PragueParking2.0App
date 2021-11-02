@@ -10,7 +10,7 @@ namespace PragueParking2._0
     {
         public string RegNr { get; set; }
         public int Size { get; set; }
-        public int Nummer { get; set; }
+        public int SpotNumber { get; set; }
         private DateTime Arrival { get; set; }
 
 
