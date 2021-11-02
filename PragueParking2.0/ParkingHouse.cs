@@ -3,22 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace PragueParking2._0
 {
-    class ParkingHouse
+     class ParkingHouse
     {
+       
         const int ParkingSpotSize = 4;
-        public static int Size { get; } = 100;
+        public int Size { get; } = Config.ParkingHouseSpots;
        
         public static List<ParkingSpot> Phouse = new();
         public ParkingHouse()
         {
+           //Config.ReadInfoFromFile();
             for (int i = 0; i < Size; i++)
             {
                 Phouse.Add(new ParkingSpot(ParkingSpotSize, i + 1));
             }
             //läs in sparad data här
+           // Config.ReadVehicleFromFile();
         }
         public bool ParkVehicle(Vehicle vehicle)
         {
@@ -29,8 +33,9 @@ namespace PragueParking2._0
                 
                 if (isSpotEmpty)
                 {
-                     Phouse[i].Park(vehicle);
-                     vehicle.SpotNumber = i + 1;
+                     Phouse[i].Park(vehicle, i);
+                     //vehicle.SpotNumber = i + 1;
+                    
                     break;
                 }
             }
@@ -82,7 +87,7 @@ namespace PragueParking2._0
             if (isSpotEmpty)
             {
                 RemoveVehicle(regnr);
-                Phouse[newSpot].Park(vehicle);
+                Phouse[newSpot].Park(vehicle, newSpot);
                // Phouse[oldSpot].Remove(vehicle);
 
                 Phouse[oldSpot].AvailableSize += vehicle.Size;

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PragueParking2._0
 {
-     class ParkingSpot
+     class ParkingSpot 
     {
         private int Number { get; set; }
         //private int Size { get; set; }
@@ -25,12 +25,14 @@ namespace PragueParking2._0
             
 
         }
-        public bool Park(Vehicle vehicle)
+        public bool Park(Vehicle vehicle, int spot)
         {
             // TODO: Lägger inte till för att det redan finns på den platsen?
             
             ParkedVehicles.Add(vehicle);
             AvailableSize -= vehicle.Size;
+            vehicle.SpotNumber = spot + 1;
+            Config.SaveVehicleToFile();
             //RegNr = vehicle.RegNr;
             return true;
         }
@@ -93,11 +95,7 @@ namespace PragueParking2._0
             
         }
         
-        public void SaveToFile()
-        {
-            
-
-        }
+       
         
     }
 }

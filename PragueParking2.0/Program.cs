@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Spectre.Console;
+using Newtonsoft.Json;
 
 namespace PragueParking2._0
 {
@@ -15,10 +16,10 @@ namespace PragueParking2._0
         static void Main(string[] args)
         {
             //StartUpMenu();
-            Config config = new Config();
-           config = Config.ReadFromFile();
-            
-
+            //Config config = new Config();
+            //config = Config.ReadInfoFromFile();
+            //config = SetValueToConfig(Config.ReadInfoFromFile());
+            Config.ReadInfoFromFile();
             Menu();
         }
 
@@ -46,7 +47,8 @@ namespace PragueParking2._0
                             string regNr = AskForRegNr();
                             if (vehicleType == "Car")
                             {
-                                parkingList.ParkVehicle(new Car(regNr));                               
+                               
+                               parkingList.ParkVehicle(new Car(regNr));                               
                             }
                             else 
                             {

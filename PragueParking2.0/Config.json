@@ -1,8 +1,10 @@
-{
-  "CarSize": "4",
-  "McSize": "2",
-  "CarPriceHour": "20",
-  "McPriceHour": "10",
-  "ParkingHouseSpots": "100"
 
-}
+  {
+    "CarSize": 4,
+    "McSize": 2,
+    "CarPriceHour": 20,
+    "McPriceHour": 10,
+    "ParkingHouseSpots": 100
+
+  }
+
