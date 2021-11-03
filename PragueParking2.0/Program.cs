@@ -4,22 +4,25 @@ using System.Linq;
 using System.Threading;
 using Spectre.Console;
 using Newtonsoft.Json;
+using System.IO;
 
 namespace PragueParking2._0
 {
     class Program
     {
-        public static ParkingHouse parkingList = new();
+        //public static ParkingHouse parkingList = new();
         //public static Config config = new Config();
         
 
         static void Main(string[] args)
         {
+            ParkingHouse parkingList = new(); //Skapar Lista så allt drar igång. Gammal data läses in.
             //StartUpMenu();
-            //Config config = new Config();
-            //config = Config.ReadInfoFromFile();
-            //config = SetValueToConfig(Config.ReadInfoFromFile());
-            Config.ReadInfoFromFile();
+
+            //string path = @"../../../Config.json";
+            //string jsonConfig = File.ReadAllText(path);
+            //JsonConvert.DeserializeObject<Config>(jsonConfig);
+            //Console.WriteLine(Config.CarPriceHour );
             Menu();
         }
 
@@ -32,63 +35,42 @@ namespace PragueParking2._0
                 AnsiConsole.Write(HeadLine("Prague Parking 2.0", Color.Gold3));
                 menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
                  
-                 .AddChoices(new[] {"[green]Add vehicle[/]","[yellow]Move vehicle[/]", "[orange4_1]Remove vehicle[/]","[magenta]Overview[/]","[Red]Exit Program[/]", "Search"
-
-                 }
-                
-                 ));
-
+                 .AddChoices(new[] {"[green]Add vehicle[/]","[yellow]Move vehicle[/]", "[orange4_1]Remove vehicle[/]",
+                     "[magenta]Overview[/]", "[DarkGreen]Search[/]", "[Red]Exit Program[/]"
+                 }));
+              
                 switch (menu) //Gets user to input of choice
                 {
                     case "[green]Add vehicle[/]":
-                        {
-                            AnsiConsole.Write(HeadLine("Add Vehicle", Color.Blue));
-                            string vehicleType = VehicleTypeChecker();
-                            string regNr = AskForRegNr();
-                            if (vehicleType == "Car")
-                            {
-                               
-                               parkingList.ParkVehicle(new Car(regNr));                               
-                            }
-                            else 
-                            {
-                                parkingList.ParkVehicle(new Mc(regNr));
-                            }                       
+                        {                          
+                            Console.WriteLine(ValidateAction(AddVehicle()));
+                            Console.ReadKey();
                         }
                         break;
                     case "[yellow]Move vehicle[/]":
-                        {
-                            AnsiConsole.Write(HeadLine("Move Vehicle", Color.Yellow));
-                            string regNr = AskForRegNr();
-                            int newSpot = AskForNewSpotNr();
-                            parkingList.MoveVehicle(regNr, newSpot);
+                        {                         
+                            Console.WriteLine(ValidateAction(MoveVehicle()));
                             Console.ReadKey();
                         }
                         break;
                     case "[orange4_1]Remove vehicle[/]":
                         {
-                            AnsiConsole.Write(HeadLine("Remove vehicle", Color.Orange4_1));
-                            string regNr = AskForRegNr();
-                            parkingList.RemoveVehicle(regNr);
+                            Console.WriteLine(ValidateAction(RemoveVehicle()));
                             Console.ReadKey();
                         }
                         break;
                     case "[magenta]Overview[/]":
                         {
                             AnsiConsole.Write(HeadLine("Overview", Color.Orange4_1));
-                            parkingList.Overview();
+                            ParkingHouse.Overview();
                             Console.ReadKey();
                         }
                         break;
-                    case "Search":
+                    case "[DarkGreen]Search[/]":
                         {
                             string regNr = AskForRegNr();
-                            //bool isContaining = parkingList.Search(regNr, out int spotNr);
-                            //if (isContaining)
-                            //{
-                            //    Console.WriteLine("Your vehicle with reg nr: {0} were found at spot nr:{1}",regNr,spotNr);
-                            //}
-                             int spot = parkingList.FindVehicle(regNr);
+                           
+                            int spot = ParkingHouse.FindVehicleIndex(AskForRegNr());
                             Console.WriteLine(spot);
                             Console.ReadKey();
                         }   
@@ -121,37 +103,98 @@ namespace PragueParking2._0
             Thread.Sleep(2000);
         });
         }
-        public static void Overview()
-        {
-            
-        }
-        public static string VehicleTypeChecker()
+        public static string AskForVehicleType()
         {
             var inputChoice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
-                .AddChoices("Car", "Mc"));
+                .AddChoices("Car", "Mc", "Back to menu"));
+            if (inputChoice == "Back to menu")
+            {
+                Menu();
+            }
             return inputChoice;
         }    
-        public static Rule HeadLine(string header, Color color)
-        {
-            var rule = new Rule($"[{color}]{header}[/]");
-            return rule;
-
-        }
         public static string AskForRegNr()
         {
             Console.Write("Enter RegNr: ");
             string regNr = Console.ReadLine();
             return regNr;
         }
-        public static void AddVehicle(string vehicleType)
+        public static Rule HeadLine(string header, Color color)
         {
-            string regNr = AskForRegNr();
-            
-                
-            
+            var rule = new Rule($"[{color}]{header}[/]");
+            return rule;
+
         }
-       
+        
+        public static bool AddVehicle()
+        {
+            AnsiConsole.Write(HeadLine("Add Vehicle", Color.Blue));
+            string vehicleType = AskForVehicleType();
+            string regNr = AskForRegNr();
+            if (vehicleType == "Car")
+            {
+
+                ParkingHouse.ParkVehicle(new Car(regNr));
+                return true;
+            }
+            else if (vehicleType == "Mc")
+            {
+                ParkingHouse.ParkVehicle(new Mc(regNr));
+                return true;
+            }
+
+            else return false;
+
+        }
+        public static bool MoveVehicle()
+        {
+            AnsiConsole.Write(HeadLine("Move Vehicle", Color.Yellow));
+            string regNr = AskForRegNr();
+            int newSpot = AskForNewSpotNr();
+            ParkingHouse.MoveVehicle(regNr, newSpot);
+            Console.ReadKey();
+
+            return true;
+        }
+        public static bool RemoveVehicle()
+        {
+            AnsiConsole.Write(HeadLine("Remove vehicle", Color.Orange4_1));
+            string regNr = AskForRegNr();
+            ParkingHouse.RemoveVehicle(regNr);
+
+            return true;
+        }
+        public static Config ReadInfoFromFile(Config dataConfig)
+        {
+            string path = @"../../../Config.json";
+            string jsonConfig = File.ReadAllText(path);
+            dataConfig = JsonConvert.DeserializeObject<Config>(jsonConfig);
+            
+            return dataConfig;
+            //Console.WriteLine(jsonConfig);
+
+            //string configstring = JsonConvert.DeserializeObject<string>(jsonConfig);   
+
+            //CarSize = int.Parse(jsonConfig);
+            //McSize = int.Parse(jsonConfig);
+            //CarPriceHour = int.Parse(jsonConfig);
+            //McPriceHour = int.Parse(jsonConfig);
+            //ParkingHouseSpots = int.Parse(jsonConfig);
+            //return config;
+        }
+        public static string ValidateAction(bool isValid)
+        {
+            if (isValid)
+            {
+
+                return "Action has been made..";
+            }
+            else
+            {
+                return "Action was not completed";
+            }
+        }
     }
 }
 

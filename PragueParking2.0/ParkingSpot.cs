@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PragueParking2._0
 {
-     class ParkingSpot 
+    public class ParkingSpot
     {
         private int Number { get; set; }
         //private int Size { get; set; }
@@ -50,12 +50,12 @@ namespace PragueParking2._0
             spot = -1;
             return false;
         }
-        public static void Remove(Vehicle vehicle)
-        {
-            
-            ParkedVehicles.Remove(vehicle);
-            
-        }
+        //public static void RemoveFromSpot(Vehicle vehicle)
+        //{
+
+        //    ParkedVehicles.Remove(vehicle);
+        //    Config.SaveVehicleToFile();
+        //}
         public bool CheckSpace(Vehicle vehicle)
         {
             //kolla med int om det får plats.

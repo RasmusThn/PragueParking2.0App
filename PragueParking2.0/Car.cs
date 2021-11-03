@@ -11,7 +11,7 @@ namespace PragueParking2._0
         public Car(string regNr) : base(regNr)
         {         
             this.Size = 4;
-            
+            this.Arrival = DateTime.Now;
         }
         
     }

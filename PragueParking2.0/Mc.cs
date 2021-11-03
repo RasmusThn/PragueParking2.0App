@@ -11,6 +11,7 @@ namespace PragueParking2._0
         public Mc(string regNr) :base(regNr)
         {           
             this.Size = 2;
+            this.Arrival = DateTime.Now;
         }
        
 

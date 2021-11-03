@@ -11,9 +11,9 @@ namespace PragueParking2._0
     {
        
         const int ParkingSpotSize = 4;
-        public int Size { get; } = Config.ParkingHouseSpots;
-       
+        public int Size { get; } = 100;      
         public static List<ParkingSpot> Phouse = new();
+
         public ParkingHouse()
         {
            //Config.ReadInfoFromFile();
@@ -22,15 +22,20 @@ namespace PragueParking2._0
                 Phouse.Add(new ParkingSpot(ParkingSpotSize, i + 1));
             }
             //läs in sparad data här
-           // Config.ReadVehicleFromFile();
+           Config.ReadVehicleFromFile();
         }
-        public bool ParkVehicle(Vehicle vehicle)
+        public static bool ParkVehicle(Vehicle vehicle)
         {
             
             for (int i = 0; i <= Phouse.Count; i++)
             {
                bool isSpotEmpty = Phouse[i].CheckSpace(vehicle);
-                
+                //bool alreadyThere = ParkingSpot.ParkedVehicles[i].Equals(vehicle.RegNr);
+                if (ParkingSpot.ParkedVehicles.Equals(vehicle.RegNr))
+                {
+                    return false;
+                }
+               // bool alreadyThere = Phouse[i].Equals(vehicle.RegNr); 
                 if (isSpotEmpty)
                 {
                      Phouse[i].Park(vehicle, i);
@@ -42,38 +47,29 @@ namespace PragueParking2._0
 
             return true;
         }
-        public bool Search(string regNr, out int spot)
-        {
-            for (int i = 0; i <= Phouse.Count; i++)
-            {
-                
-                //if (Phouse[i]) 
-                //{
-                //    spot = i;
-                //    return true;
-                //}
-            }
-            spot = -1;
-            return false;
-        }
-        public int FindVehicle(string regnr)
+       
+        public static int FindVehicleIndex(string regnr)
         {
             Vehicle vehicle = RegNrToObject(regnr);
-            
-            //int index = -1;
-            for (int i = 1; i <= Phouse.Count; i++)
-            {
-                if (Phouse[i].Equals(vehicle))
-                {
-                    return i;
-                }
-            }
-            return -1;
-           // return index = ParkingSpot.ParkedVehicles.FindIndex(x => x.RegNr == regnr);
+
+            int index = -1;
+            //for (int i = 0; i <= Phouse.Count; i++)
+            //{
+            //    if (Phouse[i].Equals(vehicle))
+            //    {
+            //        return i;
+            //    }
+            //    //else
+            //    //{
+            //    //    return -1;
+            //    //}
+            //}
+            //return -1;
+            return index = ParkingSpot.ParkedVehicles.FindIndex(x => x.RegNr == regnr);
         }
-        public int MoveVehicle(string regnr, int newSpot)
+        public static int MoveVehicle(string regnr, int newSpot)
         {
-            int oldSpot = FindVehicle(regnr);
+            int oldSpot = FindVehicleIndex(regnr);
             if (oldSpot == -1)
             {
                 return -1;
@@ -102,14 +98,9 @@ namespace PragueParking2._0
 
            
         }
-        public void Overview()
+        public static void Overview()
         {
-            //for (int i = 0; i < Phouse.Count; i++)
-            //{
-
-            //        ParkingSpot.OverviewParkingSpot(); // Knas!!
-
-            //}
+            
             int x = 0;
             for (int i = 0; i < Phouse.Count; i++)
             {
@@ -139,10 +130,14 @@ namespace PragueParking2._0
                 }
             }
         }
-        public bool RemoveVehicle(string regNr)
+        public static bool RemoveVehicle(string regNr)
         {
+            int spot = FindVehicleIndex(regNr);
             Vehicle vehicle = RegNrToObject(regNr);
             ParkingSpot.ParkedVehicles.Remove(vehicle);
+            Phouse[spot].AvailableSize += vehicle.Size;
+            
+            Config.SaveVehicleToFile();
             return true;
         }
         public static Vehicle RegNrToObject(string regNr)
