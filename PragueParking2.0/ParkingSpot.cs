@@ -36,26 +36,8 @@ namespace PragueParking2._0
             //RegNr = vehicle.RegNr;
             return true;
         }
-        public static bool Search(Vehicle vehicle, out int spot)
-        {
-            for (int i = 0; i < ParkedVehicles.Count; i++)
-            {
-                if (ParkedVehicles.Contains(vehicle))
-                {
-                    spot = i;
-                    return true;
-                }
-            }
-
-            spot = -1;
-            return false;
-        }
-        //public static void RemoveFromSpot(Vehicle vehicle)
-        //{
-
-        //    ParkedVehicles.Remove(vehicle);
-        //    Config.SaveVehicleToFile();
-        //}
+        
+        
         public bool CheckSpace(Vehicle vehicle)
         {
             //kolla med int om det får plats.
@@ -65,7 +47,7 @@ namespace PragueParking2._0
                     
                     return true;
                 }
-                else if (AvailableSize == 2 || AvailableSize == 4 && vehicle.Size == 2)
+                else if (vehicle.Size == 2 && AvailableSize == 2 || AvailableSize == 4)
                 {
                     return true;
                 }
@@ -73,27 +55,7 @@ namespace PragueParking2._0
             
             return false;
         }
-        public static bool Move(Vehicle vehicle, int newSpot)
-        {
-            
-            ParkedVehicles.Remove(vehicle);
-            ParkedVehicles.Insert(newSpot, vehicle);
-            return true;
-
-        }
-        public static void OverviewParkingSpot()
-        {
-            
-            for (int i = 0; i < ParkedVehicles.Count; i++)
-            {
-
-                Console.Write("Nr{0}:", i + 1);
-                Console.WriteLine(ParkedVehicles[i]);
-            }
-            
-            
-            
-        }
+       
         
        
         

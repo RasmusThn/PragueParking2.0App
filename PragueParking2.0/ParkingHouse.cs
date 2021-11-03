@@ -11,7 +11,7 @@ namespace PragueParking2._0
     {
        
         const int ParkingSpotSize = 4;
-        public int Size { get; } = 100;      
+        public int Size { get; } = 100;      //Varför funkar inte configGGGGEn?!
         public static List<ParkingSpot> Phouse = new();
 
         public ParkingHouse()
@@ -30,73 +30,61 @@ namespace PragueParking2._0
             for (int i = 0; i <= Phouse.Count; i++)
             {
                bool isSpotEmpty = Phouse[i].CheckSpace(vehicle);
-                //bool alreadyThere = ParkingSpot.ParkedVehicles[i].Equals(vehicle.RegNr);
-                if (ParkingSpot.ParkedVehicles.Equals(vehicle.RegNr))
-                {
-                    return false;
-                }
-               // bool alreadyThere = Phouse[i].Equals(vehicle.RegNr); 
+                 
                 if (isSpotEmpty)
                 {
-                     Phouse[i].Park(vehicle, i);
-                     //vehicle.SpotNumber = i + 1;
-                    
+                     Phouse[i].Park(vehicle, i);                
                     break;
                 }
             }
 
             return true;
-        }
-       
+        }      
         public static int FindVehicleIndex(string regnr)
         {
             Vehicle vehicle = RegNrToObject(regnr);
 
             int index = -1;
-            //for (int i = 0; i <= Phouse.Count; i++)
-            //{
-            //    if (Phouse[i].Equals(vehicle))
-            //    {
-            //        return i;
-            //    }
-            //    //else
-            //    //{
-            //    //    return -1;
-            //    //}
-            //}
-            //return -1;
-            return index = ParkingSpot.ParkedVehicles.FindIndex(x => x.RegNr == regnr);
+           
+            //return index = ParkingSpot.ParkedVehicles.FindIndex(x => x.RegNr == regnr); // SpotNr för parkedvehicles
+            return index = vehicle.SpotNumber; //spotNr för fordonet. ska nog använda denna.
         }
-        public static int MoveVehicle(string regnr, int newSpot)
+        public static void MoveVehicle(string regnr, int newSpot)
         {
             int oldSpot = FindVehicleIndex(regnr);
             if (oldSpot == -1)
             {
-                return -1;
+                Console.WriteLine("Your vehilce is nowhere to be found"); // borde aldrig köras eftersom vi innan kollat ifall regnr finns med
             }
             Vehicle vehicle = RegNrToObject(regnr);
-            //List<Vehicle> findReg = ParkingSpot.ParkedVehicles.Where(x => x.RegNr == regnr).ToList();
-           
-            //int oldSpot = FindVehicle(findReg[0]);
 
             bool isSpotEmpty = Phouse[newSpot].CheckSpace(vehicle);
             if (isSpotEmpty)
             {
                 RemoveVehicle(regnr);
-                Phouse[newSpot].Park(vehicle, newSpot);
-               // Phouse[oldSpot].Remove(vehicle);
+                Phouse[newSpot].Park(vehicle, newSpot);               
 
                 Phouse[oldSpot].AvailableSize += vehicle.Size;
-                
-                //ParkingSpot.Move(findReg[0], newSpot);
-                return 1;
+
+                Console.WriteLine("Vehicle has been moved");
             }
             else
             {
-                return 2;
+                Console.WriteLine("Couldn't move vehicle"); //borde heller aldrig köras
             }
 
            
+        }
+        public static bool RemoveVehicle(string regNr)
+        {
+
+            int spot = FindVehicleIndex(regNr);
+            Vehicle vehicle = RegNrToObject(regNr);           
+            ParkingSpot.ParkedVehicles.Remove(vehicle);
+            Phouse[spot].AvailableSize += vehicle.Size;
+            
+            Config.SaveVehicleToFile();
+            return true;
         }
         public static void Overview()
         {
@@ -129,22 +117,27 @@ namespace PragueParking2._0
                     x = 0;
                 }
             }
-        }
-        public static bool RemoveVehicle(string regNr)
-        {
-            int spot = FindVehicleIndex(regNr);
-            Vehicle vehicle = RegNrToObject(regNr);
-            ParkingSpot.ParkedVehicles.Remove(vehicle);
-            Phouse[spot].AvailableSize += vehicle.Size;
-            
-            Config.SaveVehicleToFile();
-            return true;
-        }
+        }       
         public static Vehicle RegNrToObject(string regNr)
         {
             List<Vehicle> findReg = ParkingSpot.ParkedVehicles.Where(x => x.RegNr == regNr).ToList();
 
             return findReg[0];
+        }
+        public static bool IsRegNrUsed(string regNr)
+        {
+            if (ParkingSpot.ParkedVehicles != null)
+            {
+                foreach (Vehicle vehicle in ParkingSpot.ParkedVehicles)
+                {
+                    if (vehicle.RegNr == regNr)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+            
         }
     }
 }

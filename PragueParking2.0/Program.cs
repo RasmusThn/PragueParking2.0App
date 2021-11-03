@@ -83,11 +83,24 @@ namespace PragueParking2._0
             while (menu != "[Red]Exit Program[/]");
 
         }
-        private static int AskForNewSpotNr()
+        public static int AskForNewSpotNr()
         {
-            Console.Write("Enter New Spot Number: ");
-            int spotNr = int.Parse(Console.ReadLine());
-            return spotNr;
+            
+            try
+            {
+                Console.Write("Enter New Spot Number: ");
+                int spotNr = int.Parse(Console.ReadLine());
+                return spotNr;
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("You may only use numbers!");
+                Console.ReadKey();
+                Console.Clear();
+                AskForNewSpotNr();
+                return -1;
+            }
+            
         }
         public static void StartUpMenu()
         {
@@ -117,7 +130,7 @@ namespace PragueParking2._0
         public static string AskForRegNr()
         {
             Console.Write("Enter RegNr: ");
-            string regNr = Console.ReadLine();
+            string regNr = Console.ReadLine();        
             return regNr;
         }
         public static Rule HeadLine(string header, Color color)
@@ -125,14 +138,19 @@ namespace PragueParking2._0
             var rule = new Rule($"[{color}]{header}[/]");
             return rule;
 
-        }
-        
+        }      
         public static bool AddVehicle()
         {
             AnsiConsole.Write(HeadLine("Add Vehicle", Color.Blue));
             string vehicleType = AskForVehicleType();
             string regNr = AskForRegNr();
-            if (vehicleType == "Car")
+            bool checkReg = ParkingHouse.IsRegNrUsed(regNr);
+            if (checkReg)
+            {
+                Console.WriteLine("There is already a Vehicle with that RegNr parked here!");
+                return false;
+            }
+            else if (vehicleType == "Car")
             {
 
                 ParkingHouse.ParkVehicle(new Car(regNr));
@@ -152,10 +170,18 @@ namespace PragueParking2._0
             AnsiConsole.Write(HeadLine("Move Vehicle", Color.Yellow));
             string regNr = AskForRegNr();
             int newSpot = AskForNewSpotNr();
-            ParkingHouse.MoveVehicle(regNr, newSpot);
-            Console.ReadKey();
-
-            return true;
+           bool checkReg = ParkingHouse.IsRegNrUsed(regNr);
+            if (checkReg)
+            {
+                ParkingHouse.MoveVehicle(regNr, newSpot);
+                Console.ReadKey();
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("There is no Vehicle with that RegNr here!");
+                return false;
+            }
         }
         public static bool RemoveVehicle()
         {
@@ -188,11 +214,11 @@ namespace PragueParking2._0
             if (isValid)
             {
 
-                return "Action has been made..";
+                return "Action Succeded";
             }
             else
             {
-                return "Action was not completed";
+                return "Action Failed";
             }
         }
     }
