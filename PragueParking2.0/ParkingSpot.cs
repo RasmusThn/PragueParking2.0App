@@ -10,36 +10,33 @@ namespace PragueParking2._0
 {
     public class ParkingSpot
     {
-        private int Number { get; set; }
-        //private int Size { get; set; }
+        public int Number { get; set; }
         public int AvailableSize { get; set; }
-        public string RegNr { get; set; }
+        //public string RegNr { get; set; }
         public static List<Vehicle> ParkedVehicles = new();
 
-        public ParkingSpot(int size,int nummer)
-        {
-             //this.RegNr = "Empty";
-            this.Number = nummer;
-            //Size = size;
+        public ParkingSpot(int size,int number)
+        {            
+            this.Number = number;
             AvailableSize = size;
-            
-
         }
-        public bool Park(Vehicle vehicle, int spot)
+        public bool Park(Vehicle vehicle, int spot)//Used for new Vehicles
         {
-            // TODO: Lägger inte till för att det redan finns på den platsen?
             
             ParkedVehicles.Add(vehicle);
             AvailableSize -= vehicle.Size;
             vehicle.SpotNumber = spot + 1;
             ReadDataFiles.SaveVehicleToFile();
-            //RegNr = vehicle.RegNr;
             return true;
-        }    
-        public bool CheckSpace(Vehicle vehicle)
+        }  
+        public bool Park(Vehicle vehicle) //Used for Vehicles saved to file
         {
-            //kolla med int om det får plats.
-            
+            ParkedVehicles.Add(vehicle);
+            AvailableSize -= vehicle.Size;
+            return true;
+        }
+        public bool CheckSpace(Vehicle vehicle)
+        {   
                 if (AvailableSize == DataConfig.ParkingSpotSize && vehicle.Size == DataConfig.CarSize)
                 {
                     
@@ -49,14 +46,8 @@ namespace PragueParking2._0
                                             || AvailableSize == DataConfig.ParkingSpotSize)
                 {
                     return true;
-                }
-           
-            
+                }     
             return false;
-        }
-       
-        
-       
-        
+        }    
     }
 }

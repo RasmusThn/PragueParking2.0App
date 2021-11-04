@@ -39,14 +39,18 @@ namespace PragueParking2._0
             }
 
             return true;
-        }      
+        }
+        public static bool ParkVehicle(Vehicle vehicle, int spot)
+        {
+
+            Phouse[spot-1].Park(vehicle);
+            return true;
+        }
         public static int FindVehicleIndex(string regnr)
         {
             Vehicle vehicle = RegNrToObject(regnr);
 
-            int index = -1;
-           
-            //return index = ParkingSpot.ParkedVehicles.FindIndex(x => x.RegNr == regnr); // SpotNr för parkedvehicles
+            int index = -1;         
             return index = vehicle.SpotNumber; //spotNr för fordonet. ska nog använda denna.
         }
         public static void MoveVehicle(string regnr, int newSpot)
@@ -64,7 +68,7 @@ namespace PragueParking2._0
                 RemoveVehicle(regnr);
                 Phouse[newSpot].Park(vehicle, newSpot);               
 
-                Phouse[oldSpot].AvailableSize += vehicle.Size;
+               Phouse[oldSpot].AvailableSize += vehicle.Size;
 
                 Console.WriteLine("Vehicle has been moved");
             }
@@ -106,7 +110,7 @@ namespace PragueParking2._0
                     //Console.Write(ParkingSpot.ParkedVehicles[i] + " ");
                     x++;
                 }
-                else if (Phouse[i].RegNr == null)
+                else if (Phouse[i]. == null)
                 {
                     Console.Write("Nr{0}: ", i + 1);
                     x++;

@@ -1,14 +1,24 @@
 [
   {
-    "RegNr": "dsa321",
+    "RegNr": "dsa541",
     "Size": 4,
-    "SpotNumber": 1,
-    "Arrival": "2021-11-03T16:59:27.9218098+01:00"
+    "SpotNumber": 3,
+    "Arrival": "2021-11-04T17:28:27.5203372+01:00",
+    "PricePerHour": 20
   },
   {
-    "RegNr": "asd123",
-    "Size": 4,
-    "SpotNumber": 2,
-    "Arrival": "2021-11-04T14:08:56.5984559+01:00"
+    "RegNr": "dsa321",
+    "Size": 2,
+    "SpotNumber": 1,
+    "Arrival": "2021-11-04T17:30:43.9604997+01:00",
+    "PricePerHour": 10
+  },
+  {
+    "RegNr": "567asd",
+    "Size": 2,
+    "SpotNumber": 1,
+    "Arrival": "2021-11-04T17:32:12.9668702+01:00",
+    "PricePerHour": 10
   }
+
 ]
