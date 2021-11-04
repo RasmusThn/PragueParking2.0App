@@ -10,8 +10,8 @@ namespace PragueParking2._0
      class ParkingHouse
     {
        
-        const int ParkingSpotSize = 4;
-        public int Size { get; } = 100;      //Varför funkar inte configGGGGEn?!
+        private int ParkingSpotSize = DataConfig.ParkingSpotSize;
+        private int Size { get; } = DataConfig.ParkingHouseSpots; 
         public static List<ParkingSpot> Phouse = new();
 
         public ParkingHouse()
@@ -22,7 +22,7 @@ namespace PragueParking2._0
                 Phouse.Add(new ParkingSpot(ParkingSpotSize, i + 1));
             }
             //läs in sparad data här
-           Config.ReadVehicleFromFile();
+           ReadDataFiles.ReadVehicleFromFile();
         }
         public static bool ParkVehicle(Vehicle vehicle)
         {
@@ -83,7 +83,7 @@ namespace PragueParking2._0
             ParkingSpot.ParkedVehicles.Remove(vehicle);
             Phouse[spot].AvailableSize += vehicle.Size;
             
-            Config.SaveVehicleToFile();
+            ReadDataFiles.SaveVehicleToFile();
             return true;
         }
         public static void Overview()
@@ -124,6 +124,11 @@ namespace PragueParking2._0
 
             return findReg[0];
         }
+        /// <summary>
+        /// Returns true if there already is a Vehicle registered with that same RegNr
+        /// </summary>
+        /// <param name="regNr"></param>
+        /// <returns></returns>
         public static bool IsRegNrUsed(string regNr)
         {
             if (ParkingSpot.ParkedVehicles != null)

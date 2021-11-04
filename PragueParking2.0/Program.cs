@@ -10,19 +10,12 @@ namespace PragueParking2._0
 {
     class Program
     {
-        //public static ParkingHouse parkingList = new();
-        //public static Config config = new Config();
         
-
         static void Main(string[] args)
         {
+            ReadDataFiles.SetValuesFromConfig();
             ParkingHouse parkingList = new(); //Skapar Lista så allt drar igång. Gammal data läses in.
             //StartUpMenu();
-
-            //string path = @"../../../Config.json";
-            //string jsonConfig = File.ReadAllText(path);
-            //JsonConvert.DeserializeObject<Config>(jsonConfig);
-            //Console.WriteLine(Config.CarPriceHour );
             Menu();
         }
 
@@ -191,11 +184,11 @@ namespace PragueParking2._0
 
             return true;
         }
-        public static Config ReadInfoFromFile(Config dataConfig)
+        public static ReadDataFiles ReadInfoFromFile(ReadDataFiles dataConfig)
         {
             string path = @"../../../Config.json";
             string jsonConfig = File.ReadAllText(path);
-            dataConfig = JsonConvert.DeserializeObject<Config>(jsonConfig);
+            dataConfig = JsonConvert.DeserializeObject<ReadDataFiles>(jsonConfig);
             
             return dataConfig;
             //Console.WriteLine(jsonConfig);

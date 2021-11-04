@@ -4,7 +4,8 @@
     "McSize": 2,
     "CarPriceHour": 20,
     "McPriceHour": 10,
-    "ParkingHouseSpots": 100
+    "ParkingHouseSpots": 100,
+    "ParkingSpotSize": 4
 
   }
 

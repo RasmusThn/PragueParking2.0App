@@ -32,22 +32,21 @@ namespace PragueParking2._0
             ParkedVehicles.Add(vehicle);
             AvailableSize -= vehicle.Size;
             vehicle.SpotNumber = spot + 1;
-            Config.SaveVehicleToFile();
+            ReadDataFiles.SaveVehicleToFile();
             //RegNr = vehicle.RegNr;
             return true;
-        }
-        
-        
+        }    
         public bool CheckSpace(Vehicle vehicle)
         {
             //kolla med int om det får plats.
             
-                if (AvailableSize == 4 && vehicle.Size == 4)
+                if (AvailableSize == DataConfig.ParkingSpotSize && vehicle.Size == DataConfig.CarSize)
                 {
                     
                     return true;
                 }
-                else if (vehicle.Size == 2 && AvailableSize == 2 || AvailableSize == 4)
+                else if (vehicle.Size == DataConfig.McSize && AvailableSize == DataConfig.McSize
+                                            || AvailableSize == DataConfig.ParkingSpotSize)
                 {
                     return true;
                 }

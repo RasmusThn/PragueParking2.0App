@@ -8,35 +8,15 @@ using Newtonsoft.Json;
 
 namespace PragueParking2._0
 {
-    public class Config
+    public class ReadDataFiles
     {
-        public static int CarSize { get; }
-        public static int McSize { get; set ; }
-        public static int CarPriceHour { get; set; }
-        public static int McPriceHour { get; set; }
-        public static int ParkingHouseSpots { get; set; }
-
-
-        //public Config(Config config)
-        //{
-         
-
-        //    CarSize = config.CarSize;
-        //    McSize = config.McSize;
-        //    CarPriceHour = config.CarPriceHour;
-        //    McPriceHour = config.McPriceHour;
-        //    ParkingHouseSpots = config.ParkingHouseSpots;
-        //}
-
-        //public void SetValueToConfig(Config config)
-        //{
-        //    CarSize = config.CarSize;
-        //    McSize = config.McSize;
-        //    CarPriceHour = config.CarPriceHour;
-        //    McPriceHour = config.McPriceHour;
-        //    ParkingHouseSpots = config.ParkingHouseSpots;
-
-        //}
+        
+        public static void SetValuesFromConfig()
+        {
+            string path = @"../../../Config.json";
+            string jsonConfig = File.ReadAllText(path);
+            JsonConvert.DeserializeObject<DataConfig>(jsonConfig);                    
+        }
 
         public static void SaveVehicleToFile()
         {
@@ -55,6 +35,7 @@ namespace PragueParking2._0
             {
                 ParkingHouse.ParkVehicle(vehicle);
                 
+                //Läs in filerna här istället, skit i att ändra parkingspot
                 
             }
         }

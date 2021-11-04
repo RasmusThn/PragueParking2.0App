@@ -8,10 +8,15 @@ namespace PragueParking2._0
 {
     class Car : Vehicle
     {
+        /// <summary>
+        /// Takes in Registration number and sets Regnr, Size and Datetime Now
+        /// </summary>
+        /// <param name="regNr"></param>
         public Car(string regNr) : base(regNr)
         {         
-            this.Size = 4;
+            this.Size = DataConfig.CarSize;
             this.Arrival = DateTime.Now;
+            this.PricePerHour = DataConfig.CarPriceHour;
         }
         
     }
