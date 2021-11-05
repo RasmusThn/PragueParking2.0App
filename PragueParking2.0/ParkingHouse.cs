@@ -93,39 +93,25 @@ namespace PragueParking2._0
         public static void Overview()
         {
             
-            int x = 0;
             for (int i = 0; i < Phouse.Count; i++)
             {
-                if (ParkingSpot.ParkedVehicles != null)
+                //ParkingSpot.OverViewParkingSpot();
+                if (Phouse[i].AvailableSize < 4)
                 {
-                    Console.Write("Nr{0}: ", i + 1);
-                    foreach (Vehicle vehicle in ParkingSpot.ParkedVehicles)
-                    {
-                        if (vehicle.SpotNumber == i)
-                        {
-                            Console.Write(vehicle.RegNr + " ");
-                        }
-                        else break;
-                    }
-                    //Console.Write(ParkingSpot.ParkedVehicles[i] + " ");
-                    x++;
+                    //string vehicleRegNr = ParkingSpot.OverViewParkingSpot();
+                   // Console.Write("Nr"+ i + ": " + vehicleRegNr); 
                 }
-                else if (Phouse[i]. == null)
+                else if (Phouse[i].AvailableSize == 4)
                 {
-                    Console.Write("Nr{0}: ", i + 1);
-                    x++;
-                }
-                if (x == 5)
-                {
-                    Console.WriteLine();
-                    x = 0;
+                    Console.Write("Nr{0}: Empty ", i);
                 }
             }
+            
         }       
         public static Vehicle RegNrToObject(string regNr)
         {
-            List<Vehicle> findReg = ParkingSpot.ParkedVehicles.Where(x => x.RegNr == regNr).ToList();
-
+           List<Vehicle> findReg = ParkingSpot.ParkedVehicles.Where(x => x.RegNr == regNr).ToList();
+           
             return findReg[0];
         }
         /// <summary>

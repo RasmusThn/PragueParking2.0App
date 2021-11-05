@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using Spectre.Console;
 using Newtonsoft.Json;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace PragueParking2._0
 {
@@ -67,8 +66,8 @@ namespace PragueParking2._0
                         break;
                     case "[magenta]Overview[/]":
                         {
-                            AnsiConsole.Write(HeadLine("Overview", Color.Orange4_1));
-                            ParkingHouse.Overview();
+                            AnsiConsole.Write(HeadLine("Overview", Color.Orange4_1));                           
+                            ParkingSpot.OverViewParkingSpot();
                             Console.ReadKey();
                         }
                         break;
@@ -122,28 +121,31 @@ namespace PragueParking2._0
         {
             ReturnToMenuChoice("Enter RegNr");
             Console.Write("Enter RegNr: ");
-            string regNr = Console.ReadLine();
-            bool checkReg = ParkingHouse.IsRegNrUsed(regNr);
-            if (checkReg)
+            string regNr = Console.ReadLine().ToUpper();
+            bool checkRegex = ValidateRegNrInput(regNr);
+            if (!checkRegex)
             {
-                Console.Clear();
-                Console.WriteLine("There is already a Vehicle with that RegNr parked here!");
+                Console.WriteLine("Unvalid RegNr, try removing spaces and special char's");
                 Console.ReadKey();
-                Console.Clear();
                 AskForRegNr();
                 return regNr;
             }
             else
-            {               
-                return regNr;
-            }
-        }
+            return regNr;
+        }       
         public static bool AddVehicle()
         {
             AnsiConsole.Write(HeadLine("Add Vehicle", Color.Blue));
             string vehicleType = AskForVehicleType();
             string regNr = AskForRegNr();
-            
+            bool checkReg = ParkingHouse.IsRegNrUsed(regNr);
+            if (checkReg)
+            {
+                Console.WriteLine("There is already a vehicle parked with that RegNr");
+                Console.ReadKey();
+                AddVehicle();
+                return false;
+            }
              if (vehicleType == "Car")
             {
 
@@ -185,7 +187,16 @@ namespace PragueParking2._0
         public static bool RemoveVehicle()
         {
             AnsiConsole.Write(HeadLine("Remove vehicle", Color.Orange4_1));
+            ReturnToMenuChoice("Remove vehicle");
             string regNr = AskForRegNr();
+            bool checkReg =ParkingHouse.IsRegNrUsed(regNr);
+            if (!checkReg)
+            {
+                Console.WriteLine("There is no vehicle with that RegNr at this ParkingLot");
+                Console.ReadKey();
+                RemoveVehicle();
+                return false;
+            }
             ParkingHouse.RemoveVehicle(regNr);
 
             return true;
@@ -228,6 +239,14 @@ namespace PragueParking2._0
             
             
         }
+        public static bool ValidateRegNrInput(string regNr)
+        {
+           
+            //string specialChar =@"^[^\s!.,;:#¤%&/\()=?`´@'£$$€{}[]]{0,10}$"; // konstigt
+            Regex regex = new Regex(@"^[\w\d-]{4,10}$");
+            bool regCheck = regex.IsMatch(regNr);
 
+            return regCheck;
+        }
     }
 }

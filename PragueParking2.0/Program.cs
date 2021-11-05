@@ -9,14 +9,11 @@ using System.IO;
 namespace PragueParking2._0
 {
     class Program
-    {
-        
+    {    
         static void Main(string[] args)
         {
             MenuFunctions.StartProgram();
-        }
-        
-        
+        }             
     }
 }
 
