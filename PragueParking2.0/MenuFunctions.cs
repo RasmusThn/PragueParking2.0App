@@ -22,11 +22,11 @@ namespace PragueParking2._0
         .Start("Starting ParkingApp2.0", ctx =>
         {
             Thread.Sleep(2000);
-
-            ctx.Status("Loading potential files...");
+            ctx.Status("Loading Configuration Files...");
             Thread.Sleep(2000);
-
-            ctx.Status("Turning 1's and 0's on and off...");
+            ctx.Status("Loading Saved Files...");
+            Thread.Sleep(2000);          
+            ctx.Status("Starting Up Program...");
             Thread.Sleep(2000);
         });
         }
@@ -122,15 +122,15 @@ namespace PragueParking2._0
             ReturnToMenuChoice("Enter RegNr");
             Console.Write("Enter RegNr: ");
             string regNr = Console.ReadLine().ToUpper();
-            bool checkRegex = ValidateRegNrInput(regNr);
-            if (!checkRegex)
-            {
-                Console.WriteLine("Unvalid RegNr, try removing spaces and special char's");
-                Console.ReadKey();
-                AskForRegNr();
-                return regNr;
-            }
-            else
+            //bool checkRegex = ValidateRegNrInput(regNr);    // Funkar inte av någon konstig anledning
+            //if (!checkRegex)
+            //{
+            //    Console.WriteLine("Unvalid RegNr, try removing spaces and special char's");
+            //    Console.ReadKey();
+            //    AskForRegNr();
+            //    return regNr;
+            //}
+            //else
             return regNr;
         }       
         public static bool AddVehicle()
@@ -169,7 +169,7 @@ namespace PragueParking2._0
             if (checkReg)
             {
                 int newSpot = AskForSpotNr();
-                ParkingHouse.MoveVehicle(regNr, newSpot);
+                ParkingHouse.MoveVehicle(regNr, newSpot -1);
                 Console.ReadKey();
                 return true;
             }
@@ -241,10 +241,11 @@ namespace PragueParking2._0
         }
         public static bool ValidateRegNrInput(string regNr)
         {
-           
-            //string specialChar =@"^[^\s!.,;:#¤%&/\()=?`´@'£$$€{}[]]{0,10}$"; // konstigt
-            Regex regex = new Regex(@"^[\w\d-]{4,10}$");
-            bool regCheck = regex.IsMatch(regNr);
+            
+            string specialChar = @"^[^\s!.,;:#¤%&/\()=?`´@'£$$€{}[]]{0,10}$";
+            Regex reg = new(specialChar);
+            bool regCheck = reg.IsMatch(regNr);
+            
 
             return regCheck;
         }
