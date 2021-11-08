@@ -9,15 +9,13 @@ using Newtonsoft.Json;
 namespace PragueParking2._0
 {
     public class ReadDataFiles
-    {
-        
+    {       
         public static void SetValuesFromConfig()
         {
             string path = @"../../../DataFiles/Config.json";
             string jsonConfig = File.ReadAllText(path);
             JsonConvert.DeserializeObject<DataConfig>(jsonConfig);                    
         }
-
         public static void SaveVehicleToFile()
         {
             string path = @"../../../DataFiles/SavedVehicles.json";

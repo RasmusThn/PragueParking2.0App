@@ -12,8 +12,7 @@ namespace PragueParking2._0
     public class ParkingSpot
     {
         public int Number { get; set; }
-        public int AvailableSize { get; set; }
-        //public string RegNr { get; set; }
+        public int AvailableSize { get; set; }       
         public static List<Vehicle> ParkedVehicles = new();
 
         public ParkingSpot(int size, int number)
@@ -23,7 +22,6 @@ namespace PragueParking2._0
         }
         public bool Park(Vehicle vehicle, int spot)//Used for new Vehicles
         {
-
             ParkedVehicles.Add(vehicle);
             AvailableSize -= vehicle.Size;
             vehicle.SpotNumber = spot + 1;
@@ -54,52 +52,6 @@ namespace PragueParking2._0
                 return true;
             }
             return false;
-        }
-        public static void OverViewParkingSpot()
-        {
-            
-           
-            int column = 5;
-            for (int i = 0; i < ParkingHouse.Phouse.Count; i++)
-            {
-                if ( i == column)
-                {
-                    Console.WriteLine();
-                    column += 5;
-                }
-                if (ParkingHouse.Phouse[i].AvailableSize == DataConfig.ParkingSpotSize )
-                {
-                    string empty = "Empty";
-                    Console.Write(string.Format("Nr{0}: {1}", i+1, empty).PadLeft(20, ' '));                  
-                }
-               
-                else if (ParkingHouse.Phouse[i].AvailableSize < DataConfig.ParkingSpotSize)
-                {
-                    foreach (Vehicle vehicle in ParkedVehicles)
-                    {
-                        if (vehicle.SpotNumber == (i + 1))
-                        {
-                            if (vehicle.Size == DataConfig.CarSize)
-                            {
-                                Console.Write(string.Format("Nr" + (i + 1) + ": " + vehicle.RegNr).PadLeft(20, ' '));
-                            }
-                            else if (vehicle.Size == DataConfig.McSize)
-                            {
-                                Console.Write(string.Format("Nr" + (i + 1) + ": " + vehicle.RegNr).PadLeft(20, ' '));
-                            }
-                                                       
-                        }
-                    }
-                    
-                }
-                else if (ParkingHouse.Phouse[i].AvailableSize == DataConfig.McSize)
-                {
-                    Console.Write(string.Format(" Empty Mcspot"));
-                }
-                
-
-            }
-            
-        }
+        }        
     }
 }

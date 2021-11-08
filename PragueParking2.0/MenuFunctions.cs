@@ -12,8 +12,8 @@ namespace PragueParking2._0
         public static void StartProgram()
         {
             ReadDataFiles.SetValuesFromConfig();
-            ParkingHouse parkingList = new(); //Skapar Lista så allt drar igång. Tillåter Gammal data att läsas in.
-            //StartUpMenu();
+            ParkingHouse parkingList = new(); //Skapar Lista så allt kan dra igång / kör konstruktorn
+            StartUpMenu();
             Menu();
         }
         public static void StartUpMenu()
@@ -52,8 +52,7 @@ namespace PragueParking2._0
                         }
                         break;
                     case "[yellow]Move vehicle[/]":
-                        {
-                            
+                        {                            
                             Console.WriteLine(ValidateAction(MoveVehicle()));
                             Console.ReadKey();
                         }
@@ -66,27 +65,24 @@ namespace PragueParking2._0
                         break;
                     case "[magenta]Overview[/]":
                         {
-                            AnsiConsole.Write(HeadLine("Overview", Color.Orange4_1));                           
-                            ParkingSpot.OverViewParkingSpot();
-                            Console.ReadKey();
+
+                            OverViewStarter();
                         }
-                        break;
+                        break;                   
                     case "[DarkGreen]Search[/]":
                         {
                             AnsiConsole.Write(HeadLine("Search", Color.DarkGreen));
                             ReturnToMenuChoice("Search");
-                            int spot = ParkingHouse.FindVehicleIndex(AskForRegNr());
-                            Console.WriteLine("Your vehicle is parked at spot number: " + spot);
+                            ParkingHouse.FindVehicle(AskForRegNr());                        
                             Console.ReadKey();
                         }
                         break;
-                    case "[Red]Exit Program[/]": Console.WriteLine("Exit funkar"); break;
+                    case "[Red]Exit Program[/]": AnsiConsole.Write(HeadLine("Thanks For Using Prague Parking 2.0", Color.Gold3)); ; break;
                     default:
                         break;
                 }
             }
             while (menu != "[Red]Exit Program[/]");
-
         }
         public static int AskForSpotNr()
         {
@@ -104,7 +100,6 @@ namespace PragueParking2._0
                 AskForSpotNr();
                 return -1;
             }
-
         }
         public static string AskForVehicleType()
         {
@@ -122,16 +117,16 @@ namespace PragueParking2._0
             ReturnToMenuChoice("Enter RegNr");
             Console.Write("Enter RegNr: ");
             string regNr = Console.ReadLine().ToUpper();
-            //bool checkRegex = ValidateRegNrInput(regNr);    // Funkar inte av någon konstig anledning
-            //if (!checkRegex)
-            //{
-            //    Console.WriteLine("Unvalid RegNr, try removing spaces and special char's");
-            //    Console.ReadKey();
-            //    AskForRegNr();
-            //    return regNr;
-            //}
-            //else
-            return regNr;
+            bool checkRegex = ValidateRegNrInput(regNr);    // Funkar inte av någon konstig anledning, får tillbaka false oavsett..
+            if (checkRegex) 
+            {
+                Console.WriteLine("Unvalid RegNr, try removing spaces and special char's");
+                Console.ReadKey();
+                AskForRegNr();
+                return regNr;
+            }
+            else
+                return regNr;
         }       
         public static bool AddVehicle()
         {
@@ -157,13 +152,12 @@ namespace PragueParking2._0
                 ParkingHouse.ParkVehicle(new Mc(regNr));
                 return true;
             }
-
             else return false;
-
         }
         public static bool MoveVehicle()
         {
             AnsiConsole.Write(HeadLine("Move Vehicle", Color.Yellow));
+            Console.WriteLine();
             string regNr = AskForRegNr();           
             bool checkReg = ParkingHouse.IsRegNrUsed(regNr);           
             if (checkReg)
@@ -197,23 +191,15 @@ namespace PragueParking2._0
                 RemoveVehicle();
                 return false;
             }
+            ParkingHouse.CalculatePrice(regNr);
             ParkingHouse.RemoveVehicle(regNr);
 
             return true;
-        }
-        public static ReadDataFiles ReadInfoFromFile(ReadDataFiles dataConfig)
-        {
-            string path = @"../../../Config.json";
-            string jsonConfig = File.ReadAllText(path);
-            dataConfig = JsonConvert.DeserializeObject<ReadDataFiles>(jsonConfig);
-
-            return dataConfig;           
         }
         public static string ValidateAction(bool isValid)
         {
             if (isValid)
             {
-
                 return "Action Succeded";
             }
             else
@@ -225,7 +211,6 @@ namespace PragueParking2._0
         {
             var rule = new Rule($"[{color}]{header}[/]");
             return rule;
-
         }
         public static void ReturnToMenuChoice(string input)
         {
@@ -235,19 +220,26 @@ namespace PragueParking2._0
             if (inputChoice == "Back to menu")
             {
                 Menu();                
-            }
-            
-            
+            }          
         }
         public static bool ValidateRegNrInput(string regNr)
-        {
-            
+        {           
             string specialChar = @"^[^\s!.,;:#¤%&/\()=?`´@'£$$€{}[]]{0,10}$";
             Regex reg = new(specialChar);
             bool regCheck = reg.IsMatch(regNr);
-            
 
             return regCheck;
+        }
+        public static void OverViewStarter()
+        {
+            AnsiConsole.Write(HeadLine("Overview", Color.Orange4_1));
+            ParkingHouse.Overview();
+            ReturnToMenuChoice("Show ParkingSpot");
+            int spotNr = AskForSpotNr();
+            ParkingHouse.ShowParkingSpot(spotNr);
+            Console.ReadKey();
+            Console.Clear();
+            OverViewStarter();
         }
     }
 }

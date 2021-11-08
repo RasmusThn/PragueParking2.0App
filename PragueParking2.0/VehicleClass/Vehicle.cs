@@ -14,18 +14,10 @@ namespace PragueParking2._0
         public DateTime Arrival { get; set; }
         public int PricePerHour { get; set; }
 
-
-
         public Vehicle(string regnr)
         {
             RegNr = regnr;
            
-        }
-        public override string ToString()
-        {
-            
-            return RegNr;
-        }
-
+        }      
     }
 }
