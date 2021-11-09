@@ -26,14 +26,23 @@ namespace PragueParking2._0
         }
         public static bool ParkVehicle(Vehicle vehicle)
         {
+
             for (int i = 0; i <= Phouse.Count; i++)
             {
-                bool isSpotEmpty = Phouse[i].CheckSpace(vehicle);
-
-                if (isSpotEmpty)
+                if (i >= Phouse.Count)
                 {
-                    Phouse[i].Park(vehicle, i);
-                    break;
+                    Console.WriteLine("Sorry, but the parkinglot is full!");
+                    return false;
+                }
+                else
+                {
+                    bool isSpotEmpty = Phouse[i].CheckSpace(vehicle);
+
+                    if (isSpotEmpty)
+                    {
+                        Phouse[i].Park(vehicle, i);
+                        break;
+                    }
                 }
             }
 

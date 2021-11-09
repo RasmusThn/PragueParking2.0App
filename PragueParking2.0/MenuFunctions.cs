@@ -13,7 +13,7 @@ namespace PragueParking2._0
         {
             ReadDataFiles.SetValuesFromConfig();
             ParkingHouse parkingList = new(); //Skapar Lista så allt kan dra igång / kör konstruktorn
-            StartUpMenu();
+            //StartUpMenu();
             Menu();
         }
         public static void StartUpMenu()
@@ -117,11 +117,12 @@ namespace PragueParking2._0
             ReturnToMenuChoice("Enter RegNr");
             Console.Write("Enter RegNr: ");
             string regNr = Console.ReadLine().ToUpper();
-            bool checkRegex = ValidateRegNrInput(regNr);    // Funkar inte av någon konstig anledning, får tillbaka false oavsett..
-            if (checkRegex) 
+            bool checkRegex = ValidateRegNrInput(regNr);    
+            if (!checkRegex) 
             {
                 Console.WriteLine("Unvalid RegNr, try removing spaces and special char's");
                 Console.ReadKey();
+                Console.Clear();
                 AskForRegNr();
                 return regNr;
             }
@@ -138,6 +139,7 @@ namespace PragueParking2._0
             {
                 Console.WriteLine("There is already a vehicle parked with that RegNr");
                 Console.ReadKey();
+                Console.Clear();
                 AddVehicle();
                 return false;
             }
@@ -224,7 +226,7 @@ namespace PragueParking2._0
         }
         public static bool ValidateRegNrInput(string regNr)
         {           
-            string specialChar = @"^[^\s!.,;:#¤%&/\()=?`´@'£$$€{}[]]{0,10}$";
+            string specialChar = @"^[^\s!.,;:#¤%&/\()=?`´@'£$$€{}[\]]{3,10}$";
             Regex reg = new(specialChar);
             bool regCheck = reg.IsMatch(regNr);
 
