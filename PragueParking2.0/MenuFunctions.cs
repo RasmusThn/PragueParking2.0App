@@ -13,7 +13,7 @@ namespace PragueParking2._0
         {
             ReadDataFiles.SetValuesFromConfig();
             ParkingHouse parkingList = new(); //Skapar Lista så allt kan dra igång / kör konstruktorn
-            //StartUpMenu();
+            StartUpMenu();
             Menu();
         }
         public static void StartUpMenu()
