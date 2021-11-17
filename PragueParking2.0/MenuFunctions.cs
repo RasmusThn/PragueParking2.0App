@@ -25,7 +25,7 @@ namespace PragueParking2._0
             ctx.Status("Loading Configuration Files...");
             Thread.Sleep(2000);
             ctx.Status("Loading Saved Files...");
-            Thread.Sleep(2000);          
+            Thread.Sleep(2000);
             ctx.Status("Starting Up Program...");
             Thread.Sleep(2000);
         });
@@ -52,7 +52,7 @@ namespace PragueParking2._0
                         }
                         break;
                     case "[yellow]Move vehicle[/]":
-                        {                            
+                        {
                             Console.WriteLine(ValidateAction(MoveVehicle()));
                             Console.ReadKey();
                         }
@@ -68,16 +68,21 @@ namespace PragueParking2._0
 
                             OverViewStarter();
                         }
-                        break;                   
+                        break;
                     case "[DarkGreen]Search[/]":
                         {
                             AnsiConsole.Write(HeadLine("Search", Color.DarkGreen));
                             ReturnToMenuChoice("Search");
-                            ParkingHouse.FindVehicle(AskForRegNr());                        
+                            ParkingHouse.FindVehicle(AskForRegNr());
                             Console.ReadKey();
                         }
                         break;
-                    case "[Red]Exit Program[/]": AnsiConsole.Write(HeadLine("Thanks For Using Prague Parking 2.0", Color.Gold3)); ; break;
+                    case "[Red]Exit Program[/]":
+                        {
+                            AnsiConsole.Write(HeadLine("Thanks For Using Prague Parking 2.0", Color.Gold3));
+                            Environment.Exit(0);
+                        }
+                        break;
                     default:
                         break;
                 }
@@ -117,8 +122,8 @@ namespace PragueParking2._0
             ReturnToMenuChoice("Enter RegNr");
             Console.Write("Enter RegNr: ");
             string regNr = Console.ReadLine().ToUpper();
-            bool checkRegex = ValidateRegNrInput(regNr);    
-            if (!checkRegex) 
+            bool checkRegex = ValidateRegNrInput(regNr);
+            if (!checkRegex)
             {
                 Console.WriteLine("Unvalid RegNr, try removing spaces and special char's");
                 Console.ReadKey();
@@ -128,7 +133,7 @@ namespace PragueParking2._0
             }
             else
                 return regNr;
-        }       
+        }
         public static bool AddVehicle()
         {
             AnsiConsole.Write(HeadLine("Add Vehicle", Color.Blue));
@@ -143,7 +148,7 @@ namespace PragueParking2._0
                 AddVehicle();
                 return false;
             }
-             if (vehicleType == "Car")
+            if (vehicleType == "Car")
             {
 
                 ParkingHouse.ParkVehicle(new Car(regNr));
@@ -160,12 +165,12 @@ namespace PragueParking2._0
         {
             AnsiConsole.Write(HeadLine("Move Vehicle", Color.Yellow));
             Console.WriteLine();
-            string regNr = AskForRegNr();           
-            bool checkReg = ParkingHouse.IsRegNrUsed(regNr);           
+            string regNr = AskForRegNr();
+            bool checkReg = ParkingHouse.IsRegNrUsed(regNr);
             if (checkReg)
             {
                 int newSpot = AskForSpotNr();
-                ParkingHouse.MoveVehicle(regNr, newSpot -1);
+                ParkingHouse.MoveVehicle(regNr, newSpot - 1);
                 Console.ReadKey();
                 return true;
             }
@@ -185,7 +190,7 @@ namespace PragueParking2._0
             AnsiConsole.Write(HeadLine("Remove vehicle", Color.Orange4_1));
             ReturnToMenuChoice("Remove vehicle");
             string regNr = AskForRegNr();
-            bool checkReg =ParkingHouse.IsRegNrUsed(regNr);
+            bool checkReg = ParkingHouse.IsRegNrUsed(regNr);
             if (!checkReg)
             {
                 Console.WriteLine("There is no vehicle with that RegNr at this ParkingLot");
@@ -221,11 +226,11 @@ namespace PragueParking2._0
                 .AddChoices(input, "Back to menu"));
             if (inputChoice == "Back to menu")
             {
-                Menu();                
-            }          
+                Menu();
+            }
         }
         public static bool ValidateRegNrInput(string regNr)
-        {           
+        {
             string specialChar = @"^[^\s!.,;:#¤%&/\()=?`´@'£$$€{}[\]]{3,10}$";
             Regex reg = new(specialChar);
             bool regCheck = reg.IsMatch(regNr);

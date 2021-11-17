@@ -95,7 +95,7 @@ namespace PragueParking2._0
             {
                 RemoveVehicle(regnr);
                 Phouse[newSpot].Park(vehicle, newSpot);
-                Phouse[oldSpot].AvailableSize += vehicle.Size;
+               
 
                 Console.WriteLine("Vehicle has been moved");
             }
@@ -108,7 +108,7 @@ namespace PragueParking2._0
         {
             Vehicle vehicle = RegNrToObject(regNr);
             ParkingSpot.ParkedVehicles.Remove(vehicle);
-            Phouse[vehicle.SpotNumber].AvailableSize += vehicle.Size;
+            Phouse[vehicle.SpotNumber - 1].AvailableSize += vehicle.Size;
             
             ReadDataFiles.SaveVehicleToFile();
             return true;
