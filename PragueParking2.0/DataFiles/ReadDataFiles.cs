@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 namespace PragueParking2._0
 {
     public class ReadDataFiles
-    {       
+    {       const string path = @"../../../DataFiles/SavedVehicles.json";
         public static void SetValuesFromConfig()
         {
             string path = @"../../../DataFiles/Config.json";
@@ -18,13 +18,13 @@ namespace PragueParking2._0
         }
         public static void SaveVehicleToFile()
         {
-            string path = @"../../../DataFiles/SavedVehicles.json";
+            //string path = @"../../../DataFiles/SavedVehicles.json";
             string vehicles = JsonConvert.SerializeObject(ParkingSpot.ParkedVehicles);          
             File.WriteAllText(path, vehicles);
         }
         public static void ReadVehicleFromFile()
         {
-            string path = @"../../../DataFiles/SavedVehicles.json";
+            //string path = @"../../../DataFiles/SavedVehicles.json";
             string readJson = File.ReadAllText(path);
             List<Vehicle> vehicles = JsonConvert.DeserializeObject<List<Vehicle>>(readJson).ToList();
 

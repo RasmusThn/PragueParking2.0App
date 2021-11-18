@@ -36,6 +36,7 @@ namespace PragueParking2._0
             do
             {
                 Console.Clear();
+                ParkingHouse.Overview();
                 AnsiConsole.Write(HeadLine("Prague Parking 2.0", Color.Gold3));
                 menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
 
